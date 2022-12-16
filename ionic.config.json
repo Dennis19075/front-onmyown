@@ -1,0 +1,7 @@
+{
+  "name": "front-onmyown",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
