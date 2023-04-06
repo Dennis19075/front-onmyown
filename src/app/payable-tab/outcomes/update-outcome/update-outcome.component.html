@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/payable/outcomes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Update outcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="outcomeForm" (ngSubmit)="updateOutcome()" novalidate>
+    <ion-item lines="full">
+      <ion-label position="floating">Description</ion-label>
+      <ion-input
+        autofocus
+        formControlName="description"
+        type="text"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Responsable</ion-label>
+      <ion-input formControlName="responsable" type="text" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Expense</ion-label>
+      <ion-input formControlName="expense" type="number" required></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Category</ion-label>
+      <ion-input formControlName="category" type="text" required></ion-input>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button
+          [disabled]="!outcomeForm.valid"
+          type="submit"
+          color="primary"
+          expand="block"
+          >Save</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
