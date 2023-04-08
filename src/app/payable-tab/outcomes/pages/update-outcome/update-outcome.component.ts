@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PayableService } from 'src/app/services/payable/payable.service';
+import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 
 @Component({
   selector: 'app-update-outcome',

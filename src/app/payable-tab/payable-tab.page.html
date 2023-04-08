@@ -2,15 +2,64 @@
   <ion-toolbar>
     <ion-title>Payable</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
-        Profile
-      </ion-button>
+      <ion-button> Profile </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="custom-col-card-outcome">
+        <ion-card color="light">
+          <canvas id="outcomes" width="150" height="80"></canvas>
+          <ion-row routerLink="/tabs/payable/outcomes">
+            <ion-col size="auto">
+              <ion-card-header>
+                <ion-card-subtitle class="custom-card-header">Your outcomes</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content class="custom-card-subtitle">
+                Review your outcomes of <b>March 2023</b>
+              </ion-card-content>
+            </ion-col>
+            <ion-col>
+            <ion-icon class="custom-next-icon" name="chevron-forward-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="custom-col-card-income">
+        <ion-card color="light">
+          <canvas id="incomes" width="150" height="80"></canvas>
+          <ion-row class="ion-align-items-center">
+            <ion-col size="auto">
+              <ion-card-header>
+                <ion-card-subtitle class="custom-card-header">Your incomes</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content class="custom-card-subtitle">
+                Review your incomes of <b>March 2023</b>
+              </ion-card-content>
+            </ion-col>
+            <ion-col>
+            <ion-icon class="custom-next-icon" name="chevron-forward-outline"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+</ion-content>
+
+
+
 <!-- Outcomes -->
-<ion-grid>
+<!-- <ion-grid>
   <ion-row>
     <ion-col></ion-col>
     <ion-col>
@@ -21,19 +70,18 @@
     </ion-col>
     <ion-col></ion-col>
   </ion-row>
-</ion-grid>
-
+</ion-grid> -->
 
 <!-- Incomes -->
-<ion-grid>
+<!-- <ion-grid>
   <ion-row>
     <ion-col></ion-col>
     <ion-col>
-      <ion-card>
+      <ion-card routerLink="/tabs/payable/outcomes">
         <img alt="Silhouette of mountains"
-          src="https://img.freepik.com/free-photo/calculator-money-wallet-investment-saving-finance-concept-pink-background-3d-rendering_56104-1432.jpg?w=360" />
+          src="../../assets/outcomes.png" />
       </ion-card>
     </ion-col>
     <ion-col></ion-col>
   </ion-row>
-</ion-grid>
+</ion-grid> -->

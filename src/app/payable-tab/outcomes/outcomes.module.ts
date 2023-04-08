@@ -7,7 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { OutcomesPageRoutingModule } from './outcomes-routing.module';
 
 import { OutcomesPage } from './outcomes.page';
-import { UpdateOutcomeComponent } from './update-outcome/update-outcome.component';
+
+import { HeaderOutcomesComponent } from './pages/header-outcomes/header-outcomes.component';
+import { BodyOutcomesComponent } from './pages/body-outcomes/body-outcomes.component';
+import { UpdateOutcomeComponent } from './pages/update-outcome/update-outcome.component';
 
 @NgModule({
   imports: [
@@ -17,6 +20,6 @@ import { UpdateOutcomeComponent } from './update-outcome/update-outcome.componen
     IonicModule,
     OutcomesPageRoutingModule
   ],
-  declarations: [OutcomesPage,UpdateOutcomeComponent]
+  declarations: [OutcomesPage, UpdateOutcomeComponent, HeaderOutcomesComponent, BodyOutcomesComponent]
 })
 export class OutcomesPageModule {}

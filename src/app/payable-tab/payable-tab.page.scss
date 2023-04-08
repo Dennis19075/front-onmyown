@@ -2,4 +2,29 @@
 ion-card-header.ios {
     display: flex;
     flex-flow: column-reverse;
+    padding-bottom: 0.1rem;
+    padding-top: 0.1rem;
+}
+
+.custom-card-header {
+    padding-top: 0.7rem;
+    padding-bottom: 0.2rem;
+}
+
+.custom-card-subtitle {
+    font-size: 0.8rem;
+    padding-bottom: 0.6rem;
+}
+
+.custom-next-icon {
+    margin-top: 1rem;
+}
+
+.custom-col-card-outcome {
+    margin-top: -0.5rem;
+}
+
+.custom-col-card-income {
+    margin-top: -2rem;
+    margin-bottom: -2.2rem;
 }
