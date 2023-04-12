@@ -49,9 +49,39 @@ export class PayableService {
       )
    }
 
+   getOutcomeById(id: string) {
+    return this._http
+      .get<Outcome>(this.base_path+"/"+id)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+   }
+
+   GetOutcomesByMonthAndYear(createdAt: string): Observable<Outcome>
+   {
+    console.log("BY DATE 🍭", this.base_path+"/GetOutcomesByMonthAndYear/"+createdAt);
+    
+    return this._http
+      .get<Outcome>(this.base_path+"/GetOutcomesByMonthAndYear/"+createdAt)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+   }
+
    postOutcome(outcome: Outcome): Observable<Outcome> {
     return this._http
     .post<Outcome>(this.base_path, JSON.stringify(outcome), this.httpOptions)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+   }
+
+   putOutcome(outcomeId: string, outcome: Outcome): Observable<Outcome> {
+    return this._http
+    .put<Outcome>(this.base_path+"/"+outcomeId, JSON.stringify(outcome), this.httpOptions)
     .pipe(
       retry(2),
       catchError(this.handleError)

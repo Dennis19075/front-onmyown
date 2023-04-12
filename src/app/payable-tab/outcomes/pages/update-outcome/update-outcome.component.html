@@ -1,14 +1,15 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs/payable/outcomes"></ion-back-button>
+      <!-- <ion-back-button defaultHref="tabs/payable/outcomes"></ion-back-button> -->
+      <ion-button (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
-    <ion-title>Update outcome</ion-title>
+    <ion-title>{{outcomeIdSelected ? 'Update outcome' : 'Create outcome'}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="outcomeForm" (ngSubmit)="updateOutcome()" novalidate>
+  <form [formGroup]="outcomeForm" (ngSubmit)="saveOutcome()" novalidate>
     <ion-item lines="full">
       <ion-label position="floating">Description</ion-label>
       <ion-input
@@ -18,26 +19,59 @@
         required
       ></ion-input>
     </ion-item>
-    <ion-item lines="full">
+    <!-- <ion-item lines="full">
       <ion-label position="floating">Responsable</ion-label>
-      <ion-input formControlName="responsable" type="text" required></ion-input>
-    </ion-item>
+      <ion-input
+        formControlName="responsable"
+        type="text"
+        required
+      ></ion-input>
+    </ion-item> -->
     <ion-item lines="full">
       <ion-label position="floating">Expense</ion-label>
-      <ion-input formControlName="expense" type="number" required></ion-input>
+      <ion-input
+        formControlName="expense"
+        type="number"
+        required
+      ></ion-input>
     </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">Category</ion-label>
-      <ion-input formControlName="category" type="text" required></ion-input>
+      <ion-input
+        formControlName="category"
+        type="text"
+        required
+      ></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Date</ion-label>
+      <ion-datetime-button class="custom-createdat" datetime="datetime"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime
+            formControlName="createdAt"
+            id="datetime"
+            presentation="date"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
     </ion-item>
     <ion-row>
+      <ion-col>
+        <ion-button
+          color="secondary"
+          expand="block"
+          (click)="cancel()"
+          >Cancel</ion-button
+        >
+      </ion-col>
       <ion-col>
         <ion-button
           [disabled]="!outcomeForm.valid"
           type="submit"
           color="primary"
           expand="block"
-          >Save</ion-button
+          >{{outcomeIdSelected ? "Update" : "Create"}}</ion-button
         >
       </ion-col>
     </ion-row>

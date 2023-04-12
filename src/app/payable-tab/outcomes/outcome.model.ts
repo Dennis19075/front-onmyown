@@ -1,4 +1,5 @@
 export interface Outcome {
+    id: string;
     createdAt: string;
     editedAt: string;
     description: string;

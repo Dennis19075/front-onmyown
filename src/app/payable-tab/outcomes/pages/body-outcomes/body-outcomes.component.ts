@@ -4,15 +4,17 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Outcome } from '../../outcome.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonModal } from '@ionic/angular';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { IonModal, ModalController } from '@ionic/angular';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { Router } from '@angular/router';
 import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/filter-by-date.service';
 import { Subscription } from 'rxjs';
+import { UpdateOutcomeComponent } from '../update-outcome/update-outcome.component';
 
 @Component({
   selector: 'app-body-outcomes',
@@ -32,14 +34,19 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     category: '',
     expense: 0,
     userId: '639a530c058b3ae812b0e1ec', //it should be the user logged in
+    id: ''
   };
 
   allOutcomes: any;
   totalOutcomes: number = 0;
 
+  selectedDate: any;
+
   isModalOpen: boolean = false;
 
   outcomeForm: FormGroup;
+
+  createdAtDateFilter: string = new Date().toISOString();
 
   @ViewChild(IonModal) modal: IonModal;
 
@@ -47,32 +54,59 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     public _service: PayableService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private filterByDate: FilterByDateService
+    private filterByDate: FilterByDateService,
+    private modalCtrl: ModalController
   ) {
-    this.initForm();
   }
 
-  initForm() {
-    this.outcomeForm = this.formBuilder.group({
-      // createdAt: ['', Validators.required],
-      description: ['', Validators.required],
-      responsable: ['', Validators.required],
-      expense: ['', Validators.required],
-      category: ['', Validators.required],
+  async openModal(id: string) {
+    const modal = await this.modalCtrl.create({
+      component: UpdateOutcomeComponent,
+      componentProps:{
+        id
+      },
     });
+
+    modal.onDidDismiss()
+      .then((data) => {
+        this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
+        
+    });
+    return await modal.present();
   }
 
   ngOnInit() {
+    this.initForm();
     //TODO: move these function inside the subscription to filter always by month. I have current month and
     // year set by default so It should work when the user enter at the first time.
-    this.getAllOutcomes();
+    this.getListFilteredByDate();
+    //for the first time
+    this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
+    
+  }
 
+  getListFilteredByDate() {
     const observer1$: Subscription = this.filterByDate.callback.subscribe(
-      (date) => {
-        console.log('HE RECIBIDO EL DATE: ', date);
+      (data) => {
+        //when the use filter
+        this.selectedDate = data;
+        this.getAllOutcomes(data.date.split(":").join("%3A"));
       }
     );
+
     this.subscriptions.push(observer1$);
+  }
+
+  initForm() {
+
+    this.outcomeForm = this.formBuilder.group({
+      // createdAt: ['', Validators.required],
+      description: new FormControl('', [Validators.required]),
+      // responsable: new FormControl('', [Validators.required]),
+      expense: new FormControl('', [Validators.required]),
+      category: new FormControl('', [Validators.required]),
+      createdAt: new FormControl(new Date().toISOString(), []),
+    });
   }
 
   handleRefresh(event: any) {
@@ -81,14 +115,11 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
       event.target.complete();
     }, 2000);
   }
-  // ngOnChanges() {}
 
-  // ionViewWillEnter() {
-  //   this.getAllOutcomes();
-  // }
-
-  getAllOutcomes() {
-    this._service.getOutcomes().subscribe((data) => {
+  getAllOutcomes(date: string) {
+    this._service.GetOutcomesByMonthAndYear(date).subscribe((data) => {
+      console.log("DATA LIST: ", data);
+      
       this.allOutcomes = data;
       this.totalSum();
       this.totalOutcomesOutput.emit(this.totalOutcomes);
@@ -101,32 +132,10 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
       this.totalOutcomes += outcome.expense;
     });
   }
-  // selectItem(item: any) {
-  //   console.log(item);
-  //   this.router.navigate(['/tabs/payable/outcomes/manage-outcome', item]);
-  // }
-
-  saveOutcome() {
-    console.log('outcomeForm ', this.outcomeForm.value);
-
-    let outcomeValue = this.outcomeForm.value;
-
-    this.outcome.description = outcomeValue.description;
-    this.outcome.responsable = outcomeValue.responsable;
-    this.outcome.category = outcomeValue.category;
-    this.outcome.expense = outcomeValue.expense;
-
-    this._service.postOutcome(this.outcome).subscribe((data) => {
-      this.getAllOutcomes();
-      this.initForm();
-    });
-    this.cancel();
-    this.outcomeForm.reset();
-  }
 
   deleteOutcome(item: any) {
     this._service.deleteOutcome(item.id).subscribe((res) => {
-      this.getAllOutcomes();
+      this.getAllOutcomes(this.createdAtDateFilter);
     });
   }
 
