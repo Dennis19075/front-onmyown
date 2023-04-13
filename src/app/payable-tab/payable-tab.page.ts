@@ -56,11 +56,11 @@ export class PayableTabPage implements OnInit {
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['1st week', '2nd week', '3rd week', '4th week'],
+        labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
         datasets: [
           {
-            label: '# of Votes',
-            data: [outcomesByWeek[0],outcomesByWeek[1],outcomesByWeek[2],outcomesByWeek[3]],
+            label: "Total: " + this.sumWeeks(outcomesByWeek).toString() + "$",
+            data: [outcomesByWeek[0],outcomesByWeek[1],outcomesByWeek[2],outcomesByWeek[3],outcomesByWeek[4]],
             borderWidth: 1,
             borderColor: '#ff1a1a',
             backgroundColor: '#ffcccc',
@@ -77,6 +77,14 @@ export class PayableTabPage implements OnInit {
     });
   }
 
+  sumWeeks(outcomesByWeek: any) {
+    let totalOutcomesSum = 0;
+    for (let index = 0; index < outcomesByWeek.length-2; index++) {
+      totalOutcomesSum+=outcomesByWeek[index];
+    }
+     return totalOutcomesSum;
+  }
+
   generateIncomes() {
     let canvas: HTMLCanvasElement = document.getElementById(
       'incomes'
@@ -89,11 +97,11 @@ export class PayableTabPage implements OnInit {
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['1st week', '2nd week', '3rd week', '4th week'],
+        labels: ['1st week', '2nd week', '3rd week', '4th week','5th week'],
         datasets: [
           {
-            label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            label: "Total: 0$",
+            data: [4, 8, 3, 5, 2, 3],
             borderWidth: 1,
             borderColor: '#00ff00',
             backgroundColor: '#b3ffb3',
@@ -112,9 +120,9 @@ export class PayableTabPage implements OnInit {
 
   private getCurrentMonth(weekList: any): string {
 
-    this.currentYearLabel = weekList[5]
+    this.currentYearLabel = weekList[6]
 
-    let monthAsNumber: number = weekList[4];
+    let monthAsNumber: number = weekList[5];
 
     switch (monthAsNumber) {
       case 1:
