@@ -4,14 +4,12 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { Outcome } from '../../outcome.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IonModal, ModalController } from '@ionic/angular';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
-import { Router } from '@angular/router';
 import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/filter-by-date.service';
 import { Subscription } from 'rxjs';
 import { UpdateOutcomeComponent } from '../update-outcome/update-outcome.component';
@@ -52,7 +50,6 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   constructor(
     public _service: PayableService,
-    private router: Router,
     private formBuilder: FormBuilder,
     private filterByDate: FilterByDateService,
     private modalCtrl: ModalController
@@ -118,7 +115,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   getAllOutcomes(date: string) {
     this._service.GetOutcomesByMonthAndYear(date).subscribe((data) => {
-      console.log("DATA LIST: ", data);
+      // console.log("DATA LIST: ", data);
       
       this.allOutcomes = data;
       this.totalSum();

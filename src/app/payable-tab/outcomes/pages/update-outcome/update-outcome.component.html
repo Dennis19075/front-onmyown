@@ -4,7 +4,9 @@
       <!-- <ion-back-button defaultHref="tabs/payable/outcomes"></ion-back-button> -->
       <ion-button (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
-    <ion-title>{{outcomeIdSelected ? 'Update outcome' : 'Create outcome'}}</ion-title>
+    <ion-title>{{
+      outcomeIdSelected ? "Update outcome" : "Create outcome"
+    }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -28,24 +30,22 @@
       ></ion-input>
     </ion-item> -->
     <ion-item lines="full">
-      <ion-label position="floating">Expense</ion-label>
-      <ion-input
-        formControlName="expense"
-        type="number"
-        required
-      ></ion-input>
+      <ion-label position="floating">Money (€)</ion-label>
+      <ion-input formControlName="expense" type="number" required></ion-input>
     </ion-item>
     <ion-item lines="full">
       <ion-label position="floating">Category</ion-label>
-      <ion-input
-        formControlName="category"
-        type="text"
-        required
-      ></ion-input>
+      <ion-input formControlName="category" type="text" required></ion-input>
     </ion-item>
     <ion-item lines="full">
-      <ion-label position="floating">Date</ion-label>
-      <ion-datetime-button class="custom-createdat" datetime="datetime"></ion-datetime-button>
+      <ion-row class="custom-filter">
+        <ion-col>
+          <ion-label  class="custom-date-filter-label" position="floating">Date</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        </ion-col>
+      </ion-row>
       <ion-modal [keepContentsMounted]="true">
         <ng-template>
           <ion-datetime
@@ -59,19 +59,11 @@
     <ion-row>
       <ion-col>
         <ion-button
-          color="secondary"
-          expand="block"
-          (click)="cancel()"
-          >Cancel</ion-button
-        >
-      </ion-col>
-      <ion-col>
-        <ion-button
           [disabled]="!outcomeForm.valid"
           type="submit"
           color="primary"
           expand="block"
-          >{{outcomeIdSelected ? "Update" : "Create"}}</ion-button
+          >{{ outcomeIdSelected ? "Update" : "Create" }}</ion-button
         >
       </ion-col>
     </ion-row>

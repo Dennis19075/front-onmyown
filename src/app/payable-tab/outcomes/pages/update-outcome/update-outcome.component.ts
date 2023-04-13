@@ -1,7 +1,6 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -10,7 +9,7 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from '@angular/router';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { Outcome } from '../../outcome.model';
-import { IonModal, NavParams } from '@ionic/angular';
+import { NavParams } from '@ionic/angular';
 @Component({
   selector: 'app-update-outcome',
   templateUrl: './update-outcome.component.html',
@@ -30,12 +29,8 @@ export class UpdateOutcomeComponent implements OnInit {
 
   constructor(
     public _service: PayableService,
-    private router: Router,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private fb: FormBuilder,
     public navParams: NavParams,
-    private location: Location
   ) {
     // this.initForm();
   }
@@ -43,14 +38,12 @@ export class UpdateOutcomeComponent implements OnInit {
   ngOnInit() {
     this.getOutcomeIdFromParams();
     this.initForm(this.outcomeSelected);
-
-    console.log("this.outcomeSelected ", this.outcomeSelected);
-    
+    // console.log("this.outcomeSelected ", this.outcomeSelected);
   }
 
   getOutcomeIdFromParams() {
     this.outcomeIdSelected = this.navParams.get("id");
-    console.log("EL SELECTED: ", this.outcomeIdSelected);
+    // console.log("EL SELECTED: ", this.outcomeIdSelected);
     this.getOutcomeById(this.outcomeIdSelected);
   }
 
@@ -85,13 +78,12 @@ export class UpdateOutcomeComponent implements OnInit {
   updateOutcome() {
     //PUT request
     this.outcomeForm.value.id = this.outcomeSelected.id;
-    console.log('FORM UPDATE: ', {id: this.outcomeSelected.id, outcome: this.outcomeForm.value});
+    // console.log('FORM UPDATE: ', {id: this.outcomeSelected.id, outcome: this.outcomeForm.value});
     this._service.putOutcome(this.outcomeSelected.id, this.outcomeForm.value).subscribe(
       (res) => {
         console.log(res);
       }
     )
-    // this.router.navigate(['tabs/payable/outcomes']);
     }
 
   saveOutcome() {
@@ -108,8 +100,7 @@ export class UpdateOutcomeComponent implements OnInit {
 
   createOutcome() {
     this._service.postOutcome(this.outcomeForm.value).subscribe((res) => {
-      console.log("res: ", res);
-      
+      // console.log("res: ", res);
     });
   }
 

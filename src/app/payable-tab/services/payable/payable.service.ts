@@ -70,6 +70,18 @@ export class PayableService {
       )
    }
 
+   GetOutcomesByWeek(): Observable<Outcome>
+   {
+    console.log("BY WEEK 🍭", this.base_path+"/GetOutcomesByWeek");
+    
+    return this._http
+      .get<Outcome>(this.base_path+"/GetOutcomesByWeek")
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+   }
+
    postOutcome(outcome: Outcome): Observable<Outcome> {
     return this._http
     .post<Outcome>(this.base_path, JSON.stringify(outcome), this.httpOptions)
