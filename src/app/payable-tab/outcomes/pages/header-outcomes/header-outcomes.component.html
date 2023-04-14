@@ -4,8 +4,9 @@
   placeholder="Search your outcome 🍭"
 ></ion-searchbar>
 <div class="wrapper">
-  <div class="ion-button ion-activatable ripple-parent">
-    <ion-icon name="calendar-outline"></ion-icon> Calendar
+  <div class="ion-button ion-activatable ripple-parent" (click)="calendarMode()">
+    <div *ngIf="!isCalendarMode"><ion-icon name="calendar-outline"></ion-icon> Calendar</div>
+    <div *ngIf="isCalendarMode"><ion-icon name="list-outline"></ion-icon> List</div>
     <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
   </div>
 

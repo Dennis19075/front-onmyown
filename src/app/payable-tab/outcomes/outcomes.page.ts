@@ -14,6 +14,8 @@ export class OutcomesPage implements OnInit {
 
   totalOutcomes: number = 0;
 
+  isCalendarMode: boolean = false;
+
   constructor(
     public _service: PayableService,
     private router: Router,
@@ -29,4 +31,11 @@ export class OutcomesPage implements OnInit {
      this.totalOutcomes = $event;
   }
   
+  activateCalendarMode($event: any) {
+    if (!this.isCalendarMode) {
+      this.isCalendarMode = true;
+    } else {
+      this.isCalendarMode = false;
+    }
+  }
 }

@@ -11,8 +11,13 @@
 </ion-header>
 
 <ion-content class="no-scroll">
-  <app-header-outcomes></app-header-outcomes>
+  <app-header-outcomes
+  [isCalendarMode]="isCalendarMode"
+  (isCalendarModeOutcomeOutput)="activateCalendarMode($event)"></app-header-outcomes>
   <app-body-outcomes
+    *ngIf="!isCalendarMode"
     (totalOutcomesOutput)="getTotalOutcomes($event)"
   ></app-body-outcomes>
+  <app-body-calendar-output *ngIf="isCalendarMode"
+  ></app-body-calendar-output>
 </ion-content>

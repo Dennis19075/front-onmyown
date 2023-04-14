@@ -1,0 +1,21 @@
+<ion-fab size="small" slot="fixed" horizontal="end" vertical="bottom">
+  <ion-fab-button (click)="openModal('')">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-item-divider>
+    <ion-label class="custom-ion-label-total-outcomes">
+      Outcomes: {{ allOutcomes?.length }}
+    </ion-label>
+  </ion-item-divider>
+
+  <div class="custom-calendar-widget">
+    <ion-datetime [showDefaultButtons]="false" presentation="date"></ion-datetime>
+  </div>
+</ion-content>

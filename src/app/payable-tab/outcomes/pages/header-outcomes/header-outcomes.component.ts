@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -19,11 +19,13 @@ import { PayableService } from 'src/app/payable-tab/services/payable/payable.ser
 export class HeaderOutcomesComponent implements OnInit {
   @ViewChild(IonModal) modalFilters: IonModal;
 
+  @Output() isCalendarModeOutcomeOutput = new EventEmitter<number>();
+
+  @Input() isCalendarMode: boolean;
+
   filters: any = {
     date: new Date(),
   };
-
-  totalOutcomes: number = 0;
 
   outcomeFiltersForm: FormGroup;
 
@@ -58,5 +60,9 @@ export class HeaderOutcomesComponent implements OnInit {
   cancel() {
     this.modalFilters.dismiss(null, 'cancel');
     this.outcomeFiltersForm.reset();
+  }
+
+  calendarMode() {
+    this.isCalendarModeOutcomeOutput.emit();
   }
 }
