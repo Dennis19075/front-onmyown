@@ -13,6 +13,7 @@ import { PayableService } from 'src/app/payable-tab/services/payable/payable.ser
 import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/filter-by-date.service';
 import { Subscription } from 'rxjs';
 import { UpdateOutcomeComponent } from '../update-outcome/update-outcome.component';
+import { RefreshPayableService } from 'src/app/payable-tab/services/refresh-payable/refresh-payable.service';
 
 @Component({
   selector: 'app-body-outcomes',
@@ -52,7 +53,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     public _service: PayableService,
     private formBuilder: FormBuilder,
     private filterByDate: FilterByDateService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private refreshPayableService: RefreshPayableService
   ) {
   }
 
@@ -67,7 +69,6 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     modal.onDidDismiss()
       .then((data) => {
         this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
-        
     });
     return await modal.present();
   }
@@ -133,6 +134,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   deleteOutcome(item: any) {
     this._service.deleteOutcome(item.id).subscribe((res) => {
       this.getAllOutcomes(this.createdAtDateFilter);
+      this.refreshPayableService.callback.emit(res);
     });
   }
 

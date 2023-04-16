@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IonModal } from '@ionic/angular';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { Outcome } from './outcome.model';
+import { RefreshPayableService } from '../services/refresh-payable/refresh-payable.service';
 
 @Component({
   selector: 'app-outcomes',
@@ -18,8 +19,6 @@ export class OutcomesPage implements OnInit {
 
   constructor(
     public _service: PayableService,
-    private router: Router,
-    private formBuilder: FormBuilder
   ) {
   }
 

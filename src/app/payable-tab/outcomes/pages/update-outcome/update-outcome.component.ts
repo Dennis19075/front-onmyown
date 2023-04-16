@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { Outcome } from '../../outcome.model';
 import { NavParams } from '@ionic/angular';
+import { RefreshPayableService } from 'src/app/payable-tab/services/refresh-payable/refresh-payable.service';
 @Component({
   selector: 'app-update-outcome',
   templateUrl: './update-outcome.component.html',
@@ -31,6 +32,7 @@ export class UpdateOutcomeComponent implements OnInit {
     public _service: PayableService,
     private fb: FormBuilder,
     public navParams: NavParams,
+    private refreshPayableService: RefreshPayableService
   ) {
     // this.initForm();
   }
@@ -82,6 +84,7 @@ export class UpdateOutcomeComponent implements OnInit {
     this._service.putOutcome(this.outcomeSelected.id, this.outcomeForm.value).subscribe(
       (res) => {
         console.log(res);
+        this.refreshPayableService.callback.emit(res);
       }
     )
     }
@@ -96,11 +99,13 @@ export class UpdateOutcomeComponent implements OnInit {
       this.createOutcome();
     }
     this.modal.dismiss('cancel');
+
   }
 
   createOutcome() {
     this._service.postOutcome(this.outcomeForm.value).subscribe((res) => {
       // console.log("res: ", res);
+      this.refreshPayableService.callback.emit(res);
     });
   }
 

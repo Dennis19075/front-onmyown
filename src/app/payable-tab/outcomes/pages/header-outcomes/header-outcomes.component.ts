@@ -36,7 +36,7 @@ export class HeaderOutcomesComponent implements OnInit {
     private navCtrl: NavController,
     private filterByDate: FilterByDateService
   ) {
-    this.initForm();
+
   }
 
   initForm() {
@@ -45,7 +45,9 @@ export class HeaderOutcomesComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.initForm();
+  }
 
   applyFilter() {
     console.log('form ', this.outcomeFiltersForm.value);
@@ -55,6 +57,10 @@ export class HeaderOutcomesComponent implements OnInit {
       dismissed: true,
     });
     // this.outcomeFiltersForm.reset();
+  }
+
+  getOutcomesByDay() {
+    
   }
 
   cancel() {

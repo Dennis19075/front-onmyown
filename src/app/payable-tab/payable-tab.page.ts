@@ -3,6 +3,8 @@ import { PayableService } from './services/payable/payable.service';
 import { Outcome } from './outcomes/outcome.model';
 import { Chart } from 'chart.js';
 import { OutcomesPage } from './outcomes/outcomes.page';
+import { RefreshPayableService } from './services/refresh-payable/refresh-payable.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab1',
@@ -10,6 +12,32 @@ import { OutcomesPage } from './outcomes/outcomes.page';
   styleUrls: ['payable-tab.page.scss'],
 })
 export class PayableTabPage implements OnInit {
+
+  outcomeChart: any;
+
+  subscriptions: Subscription[] = [];
+
+  customPopoverOptions = {
+    header: '',
+    subHeader: 'Select month',
+    message: '',
+  };
+
+  months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
   component = OutcomesPage;
 
   outcomesByWeek: any = [];
@@ -17,12 +45,16 @@ export class PayableTabPage implements OnInit {
   currentMonthLabel: string;
   currentYearLabel: string;
 
-  constructor(private _payableService: PayableService) {}
+  constructor(
+    private _payableService: PayableService,
+    private refreshPayableService: RefreshPayableService
+    ) {}
 
   ngOnInit() {
     // this.generateOutcomes();
     this.generateIncomes();
     this.getOutcomesPerWeek();
+    this.getUpdatedValues();
   }
 
   handleRefresh(event: any) {
@@ -33,13 +65,26 @@ export class PayableTabPage implements OnInit {
   }
 
   getOutcomesPerWeek() {
+    
     this._payableService.GetOutcomesByWeek().subscribe((data) => {
       this.currentMonthLabel = this.getCurrentMonth(data);
-      console.log("this.currentMonthLabel ", this.currentMonthLabel);
-      console.log("this.currentYearLabel", this.currentYearLabel);
-      
+      console.log('this.currentMonthLabel ', this.currentMonthLabel);
+      console.log('this.currentYearLabel', this.currentYearLabel);
+
       this.generateOutcomes(data);
     });
+  }
+
+  getUpdatedValues() {
+    const observer1$: Subscription = this.refreshPayableService.callback.subscribe(
+      (data) => {
+        //when the use filter
+        console.log("ESTO EN PAYABLE C: ", data);
+        this.getOutcomesPerWeek();
+      }
+    );
+
+    this.subscriptions.push(observer1$);
   }
 
   generateOutcomes(outcomesByWeek: any) {
@@ -53,14 +98,25 @@ export class PayableTabPage implements OnInit {
 
     console.log('DATA GRAH: ', outcomesByWeek);
 
-    new Chart(ctx, {
+    // if the graph has something on it, reload
+    if (this.outcomeChart) {
+      this.outcomeChart.destroy();
+    }
+
+    this.outcomeChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
         datasets: [
           {
-            label: "Total: " + this.sumWeeks(outcomesByWeek).toString() + "$",
-            data: [outcomesByWeek[0],outcomesByWeek[1],outcomesByWeek[2],outcomesByWeek[3],outcomesByWeek[4]],
+            label: 'Total: ' + this.sumWeeks(outcomesByWeek).toString() + '$',
+            data: [
+              outcomesByWeek[0],
+              outcomesByWeek[1],
+              outcomesByWeek[2],
+              outcomesByWeek[3],
+              outcomesByWeek[4],
+            ],
             borderWidth: 1,
             borderColor: '#ff1a1a',
             backgroundColor: '#ffcccc',
@@ -79,10 +135,10 @@ export class PayableTabPage implements OnInit {
 
   sumWeeks(outcomesByWeek: any) {
     let totalOutcomesSum = 0;
-    for (let index = 0; index < outcomesByWeek.length-2; index++) {
-      totalOutcomesSum+=outcomesByWeek[index];
+    for (let index = 0; index < outcomesByWeek.length - 2; index++) {
+      totalOutcomesSum += outcomesByWeek[index];
     }
-     return totalOutcomesSum;
+    return totalOutcomesSum;
   }
 
   generateIncomes() {
@@ -97,10 +153,10 @@ export class PayableTabPage implements OnInit {
     new Chart(ctx, {
       type: 'line',
       data: {
-        labels: ['1st week', '2nd week', '3rd week', '4th week','5th week'],
+        labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
         datasets: [
           {
-            label: "Total: 0$",
+            label: 'Total: 0$',
             data: [4, 8, 3, 5, 2, 3],
             borderWidth: 1,
             borderColor: '#00ff00',
@@ -119,51 +175,50 @@ export class PayableTabPage implements OnInit {
   }
 
   private getCurrentMonth(weekList: any): string {
-
-    this.currentYearLabel = weekList[6]
+    this.currentYearLabel = weekList[6];
 
     let monthAsNumber: number = weekList[5];
 
     switch (monthAsNumber) {
       case 1:
-        return 'January';
+        return this.months[0];
         break;
       case 2:
-        return 'February';
+        return this.months[1];
         break;
       case 3:
-        return 'March';
+        return this.months[2];
         break;
       case 4:
-        return 'April';
+        return this.months[3];
         break;
       case 5:
-        return 'May';
+        return this.months[4];
         break;
       case 6:
-        return 'June';
+        return this.months[5];
         break;
       case 7:
-        return 'July';
+        return this.months[6];
         break;
       case 8:
-        return 'August';
+        return this.months[7];
         break;
       case 9:
-        return 'September';
+        return this.months[8];
         break;
       case 10:
-        return 'October';
+        return this.months[9];
         break;
       case 11:
-        return 'November';
+        return this.months[10];
         break;
       case 12:
-        return 'December';
+        return this.months[11];
         break;
 
       default:
-        return "";
+        return '';
         break;
     }
   }

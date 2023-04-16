@@ -54,6 +54,24 @@
             </ion-modal>
           </ion-col>
         </ion-row>
+        <ion-row class="custom-filter">
+          <ion-col>
+            <div>By Day</div>
+          </ion-col>
+          <ion-col>
+            <ion-datetime-button dateday="dateday"></ion-datetime-button>
+
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime
+                  formControlName="dateDay"
+                  id="datetime"
+                  presentation="month-year"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </ion-col>
+        </ion-row>
         <ion-row>
           <ion-col>
             <ion-button
