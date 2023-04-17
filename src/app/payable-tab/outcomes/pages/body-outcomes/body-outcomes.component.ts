@@ -167,8 +167,11 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
           this._service.GetOutcomesBySearch(this.createdAtDateFilter.split(":").join("%3A"), description).subscribe(
             (data) => {
               this.allOutcomes = data;
+              this.totalSum();
+              this.totalOutcomesOutput.emit(this.totalOutcomes);
             }
           )
+          
         } else {
           this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), "");
         }
@@ -185,6 +188,12 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
         break;
       case "diversion":
         return "Diversión";
+        break;
+      case "viajes":
+        return "Viajes";
+        break;
+      case "musica":
+        return "Música";
         break;
       case "deportes":
         return "Deportes";

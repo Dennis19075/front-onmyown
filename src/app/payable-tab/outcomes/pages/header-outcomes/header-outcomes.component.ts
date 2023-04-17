@@ -48,7 +48,7 @@ export class HeaderOutcomesComponent implements OnInit {
   initForm() {
     this.outcomeFiltersForm = new FormGroup({
       date: new FormControl(new Date().toISOString(), [Validators.required]),
-      category: new FormControl(null, [Validators.required])
+      category: new FormControl('all', [Validators.required])
     });
   }
 
@@ -85,7 +85,11 @@ export class HeaderOutcomesComponent implements OnInit {
 
   handleInput(event: any) {
     console.log("EVENTO SEARCH: ", event.target.value);
-    this.searchInputService.callback.emit(event.target.value);
+    if (event.target.value!="") {
+      this.searchInputService.callback.emit(event.target.value);
+    } else {
+      this.searchInputService.callback.emit("none");
+    }
   }
 
 }
