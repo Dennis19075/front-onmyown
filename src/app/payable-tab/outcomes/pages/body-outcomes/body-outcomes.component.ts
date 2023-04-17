@@ -34,8 +34,9 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     responsable: '',
     category: '',
     expense: 0,
-    userId: '639a530c058b3ae812b0e1ec', //it should be the user logged in
-    id: ''
+    userId: '639a530c058b3ae812b0e1ec',
+    id: '',
+    exchange: ''
   };
 
   allOutcomes: any;
@@ -171,6 +172,58 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.push(observer1$);
+  }
+
+  getCategory(category: string) {
+    switch (category) {
+      case "alimentacion":
+        return "Alimentación";
+        break;
+      case "diversion":
+        return "Diversión";
+        break;
+      case "deportes":
+        return "Deportes";
+        break;
+      case "casa":
+        return "Casa";
+        break;
+      case "profesional":
+        return "Profesional";
+        break;
+      case "transporte":
+        return "Transporte";
+        break;
+      case "ropa":
+        return "Ropa";
+        break;
+      case "saludehigiene":
+        return "Salud e Higiene";
+        break;
+      case "cuentasypagos":
+        return "Cuentas y pagos";
+        break;
+      case "otros":
+        return "Otros gastos";
+        break;
+      default:
+        return ""
+        break;
+    }
+  }
+
+  getIconExchange(exchange: string) {
+    switch (exchange) {
+      case "EUR":
+        return "€";
+        break;
+      case "USD":
+        return "$";
+        break;
+      default:
+        return ""
+        break;
+    }
   }
 
   ngOnDestroy(): void {

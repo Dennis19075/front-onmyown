@@ -30,29 +30,53 @@
       ></ion-input>
     </ion-item> -->
     <ion-item lines="full">
-      <ion-label position="floating">Money (€)</ion-label>
+      <ion-select
+        formControlName="exchange"
+        type="text"
+        required
+        aria-label="fruit"
+        placeholder="Select exchange"
+      >
+        <ion-select-option value="EUR">Euro (€)</ion-select-option>
+        <ion-select-option value="USD">USD ($)</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating">Money (€) </ion-label>
       <ion-input formControlName="expense" type="number" required></ion-input>
     </ion-item>
     <!-- <ion-list> -->
-      <ion-item  lines="full">
-        <ion-select formControlName="category" type="text" required aria-label="fruit" placeholder="Select category">
-          <ion-select-option value="alimentacion">Alimentación</ion-select-option>
-          <ion-select-option value="diversion">Diversión</ion-select-option>
-          <ion-select-option value="deportes">Deportes</ion-select-option>
-          <ion-select-option value="casa">Casa</ion-select-option>
-          <ion-select-option value="profesional">Profesional</ion-select-option>
-          <ion-select-option value="transporte">Transporte</ion-select-option>
-          <ion-select-option value="ropa">Ropa</ion-select-option>
-          <ion-select-option value="saludehigiene">Salud e higiene</ion-select-option>
-          <ion-select-option value="cuentasypagos">Cuentas y pagos</ion-select-option>
-          <ion-select-option value="otros">Otros gastos</ion-select-option>
-        </ion-select>
-      </ion-item>
+    <ion-item lines="full">
+      <ion-select
+        formControlName="category"
+        type="text"
+        required
+        aria-label="fruit"
+        placeholder="Select category"
+      >
+        <ion-select-option value="alimentacion">Alimentación</ion-select-option>
+        <ion-select-option value="diversion">Diversión</ion-select-option>
+        <ion-select-option value="deportes">Deportes</ion-select-option>
+        <ion-select-option value="casa">Casa</ion-select-option>
+        <ion-select-option value="profesional">Profesional</ion-select-option>
+        <ion-select-option value="transporte">Transporte</ion-select-option>
+        <ion-select-option value="ropa">Ropa</ion-select-option>
+        <ion-select-option value="saludehigiene"
+          >Salud e higiene</ion-select-option
+        >
+        <ion-select-option value="cuentasypagos"
+          >Cuentas y pagos</ion-select-option
+        >
+        <ion-select-option value="otros">Otros gastos</ion-select-option>
+      </ion-select>
+    </ion-item>
     <!-- </ion-list> -->
     <ion-item lines="full">
       <ion-row class="custom-filter">
         <ion-col>
-          <ion-label  class="custom-date-filter-label" position="floating">Date</ion-label>
+          <ion-label class="custom-date-filter-label" position="floating"
+            >Date</ion-label
+          >
         </ion-col>
         <ion-col>
           <ion-datetime-button datetime="datetime"></ion-datetime-button>

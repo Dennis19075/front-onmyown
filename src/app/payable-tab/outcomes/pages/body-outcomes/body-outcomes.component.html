@@ -29,8 +29,8 @@
           <p>{{ item.createdAt | date }}</p>
         </ion-label>
         <ion-label class="custom-item-right-data" >
-          <h4 class="custom-right-list">{{ item.expense | currency:'EUR':true }}</h4>  
-          <p class="custom-right-list custom-category">{{item.category}}</p>
+          <h4 class="custom-right-list">{{getIconExchange(item.exchange)}}{{ item.expense }}</h4>  
+          <p class="custom-right-list custom-category">{{getCategory(item.category)}}</p>
         </ion-label>
       </ion-item>
 

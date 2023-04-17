@@ -6,6 +6,7 @@ export interface Outcome {
     responsable: string;
     category: string;
     expense: number;
+    exchange: string;
     userId: string;
 }
 
