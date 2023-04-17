@@ -10,6 +10,7 @@ import { IonModal, NavController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/filter-by-date.service';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
+import { SearchInputService } from 'src/app/payable-tab/services/searchInput/search-input.service';
 
 @Component({
   selector: 'app-header-outcomes',
@@ -34,19 +35,20 @@ export class HeaderOutcomesComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
-    private filterByDate: FilterByDateService
+    private filterByDate: FilterByDateService,
+    private searchInputService: SearchInputService
   ) {
 
+  }
+
+  ngOnInit(): void {
+    this.initForm();
   }
 
   initForm() {
     this.outcomeFiltersForm = new FormGroup({
       date: new FormControl(new Date().toISOString(), [Validators.required]),
     });
-  }
-
-  ngOnInit(): void {
-    this.initForm();
   }
 
   applyFilter() {
@@ -59,16 +61,30 @@ export class HeaderOutcomesComponent implements OnInit {
     // this.outcomeFiltersForm.reset();
   }
 
-  getOutcomesByDay() {
+  // getOutcomesByDay() {
     
-  }
+  // }
 
   cancel() {
     this.modalFilters.dismiss(null, 'cancel');
     this.outcomeFiltersForm.reset();
   }
 
+  resetFilters() {
+    let today = {date: new Date().toISOString()};
+    this.outcomeFiltersForm.reset();
+    console.log("today: ", today);
+    
+    this.filterByDate.callback.emit(today);
+  }
+
   calendarMode() {
     this.isCalendarModeOutcomeOutput.emit();
   }
+
+  handleInput(event: any) {
+    console.log("EVENTO SEARCH: ", event.target.value);
+    this.searchInputService.callback.emit(event.target.value);
+  }
+
 }

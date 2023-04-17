@@ -14,6 +14,8 @@ import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/f
 import { Subscription } from 'rxjs';
 import { UpdateOutcomeComponent } from '../update-outcome/update-outcome.component';
 import { RefreshPayableService } from 'src/app/payable-tab/services/refresh-payable/refresh-payable.service';
+import { SearchInputService } from 'src/app/payable-tab/services/searchInput/search-input.service';
+
 
 @Component({
   selector: 'app-body-outcomes',
@@ -47,6 +49,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   createdAtDateFilter: string = new Date().toISOString();
 
+  descriptionSearch: string;
+
   @ViewChild(IonModal) modal: IonModal;
 
   constructor(
@@ -54,7 +58,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private filterByDate: FilterByDateService,
     private modalCtrl: ModalController,
-    private refreshPayableService: RefreshPayableService
+    private refreshPayableService: RefreshPayableService,
+    private searchInputService: SearchInputService
   ) {
   }
 
@@ -78,6 +83,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     //TODO: move these function inside the subscription to filter always by month. I have current month and
     // year set by default so It should work when the user enter at the first time.
     this.getListFilteredByDate();
+    this.getListFilteredBySearch();
     //for the first time
     this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
     
@@ -88,7 +94,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
       (data) => {
         //when the use filter
         this.selectedDate = data;
-        this.getAllOutcomes(data.date.split(":").join("%3A"));
+        this.createdAtDateFilter = data.date.split(":").join("%3A");
+        this.getAllOutcomes(this.createdAtDateFilter);
       }
     );
 
@@ -133,7 +140,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   deleteOutcome(item: any) {
     this._service.deleteOutcome(item.id).subscribe((res) => {
-      this.getAllOutcomes(this.createdAtDateFilter);
+      this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
       this.refreshPayableService.callback.emit(res);
     });
   }
@@ -141,6 +148,29 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   cancel() {
     this.modal.dismiss(null, 'cancel');
     this.outcomeForm.reset();
+  }
+
+  getListFilteredBySearch() {
+    const observer1$: Subscription = this.searchInputService.callback.subscribe(
+      (description) => {
+        //when the use filter
+        this.descriptionSearch = description;
+        console.log("DATA FILTER SEARCH: ", description);
+        console.log("CURRENT DATE: ", this.createdAtDateFilter.split(":").join("%3A"));
+        
+        if (description) {
+          this._service.GetOutcomesBySearch(this.createdAtDateFilter.split(":").join("%3A"), description).subscribe(
+            (data) => {
+              this.allOutcomes = data;
+            }
+          )
+        } else {
+          this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
+        }
+      }
+    );
+
+    this.subscriptions.push(observer1$);
   }
 
   ngOnDestroy(): void {

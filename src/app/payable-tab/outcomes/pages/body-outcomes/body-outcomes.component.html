@@ -23,15 +23,14 @@
   <ion-list class="custom-outcome-list">
     <ion-item-sliding *ngFor="let item of allOutcomes">
       <!-- <ion-item href="tabs/payable/outcomes/update/{{ item.id }}"> -->
-        <ion-item (click)="openModal(item.id)">
+      <ion-item (click)="openModal(item.id)">
         <ion-label>
           <h4>{{ item.description }}</h4>
-          <!-- <p>{{item.responsable}}</p> -->
           <p>{{ item.createdAt | date }}</p>
         </ion-label>
-
-        <ion-label slot="end">
-          <h4>{{ item.expense | currency:'EUR':true }}</h4>
+        <ion-label class="custom-item-right-data" >
+          <h4 class="custom-right-list">{{ item.expense | currency:'EUR':true }}</h4>  
+          <p class="custom-right-list custom-category">{{item.category}}</p>
         </ion-label>
       </ion-item>
 
