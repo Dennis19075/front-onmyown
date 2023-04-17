@@ -48,6 +48,7 @@ export class HeaderOutcomesComponent implements OnInit {
   initForm() {
     this.outcomeFiltersForm = new FormGroup({
       date: new FormControl(new Date().toISOString(), [Validators.required]),
+      category: new FormControl(null, [Validators.required])
     });
   }
 

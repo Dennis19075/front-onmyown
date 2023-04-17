@@ -58,12 +58,12 @@ export class PayableService {
       )
    }
 
-   GetOutcomesByMonthAndYear(createdAt: string): Observable<Outcome>
+   GetOutcomesByFilters(createdAt: string, category: string): Observable<Outcome>
    {
-    console.log("BY DATE 🍭", this.base_path+"/GetOutcomesByMonthAndYear/"+createdAt);
+    console.log("BY DATE 🍭", this.base_path+"/GetOutcomesByFilters/"+createdAt+"/"+category);
     
     return this._http
-      .get<Outcome>(this.base_path+"/GetOutcomesByMonthAndYear/"+createdAt)
+      .get<Outcome>(this.base_path+"/GetOutcomesByFilters/"+createdAt+"/"+category)
       .pipe(
         retry(2),
         catchError(this.handleError)

@@ -138,7 +138,7 @@ export class PayableTabPage implements OnInit {
     for (let index = 0; index < outcomesByWeek.length - 2; index++) {
       totalOutcomesSum += outcomesByWeek[index];
     }
-    return totalOutcomesSum;
+    return totalOutcomesSum.toFixed(2);
   }
 
   generateIncomes() {

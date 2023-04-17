@@ -52,6 +52,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   descriptionSearch: string;
 
+  categoryFilter: string = "all";
+
   @ViewChild(IonModal) modal: IonModal;
 
   constructor(
@@ -74,7 +76,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
     modal.onDidDismiss()
       .then((data) => {
-        this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
+        this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), this.categoryFilter);
     });
     return await modal.present();
   }
@@ -86,7 +88,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     this.getListFilteredByDate();
     this.getListFilteredBySearch();
     //for the first time
-    this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
+    this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), this.categoryFilter);
     
   }
 
@@ -94,9 +96,11 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     const observer1$: Subscription = this.filterByDate.callback.subscribe(
       (data) => {
         //when the use filter
+        console.log("data filter: ",data);
         this.selectedDate = data;
+        this.categoryFilter = data.category;
         this.createdAtDateFilter = data.date.split(":").join("%3A");
-        this.getAllOutcomes(this.createdAtDateFilter);
+        this.getAllOutcomes(this.createdAtDateFilter, this.categoryFilter);
       }
     );
 
@@ -122,8 +126,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
-  getAllOutcomes(date: string) {
-    this._service.GetOutcomesByMonthAndYear(date).subscribe((data) => {
+  getAllOutcomes(date: string, category: string) {
+    this._service.GetOutcomesByFilters(date, category).subscribe((data) => {
       // console.log("DATA LIST: ", data);
       
       this.allOutcomes = data;
@@ -141,7 +145,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   deleteOutcome(item: any) {
     this._service.deleteOutcome(item.id).subscribe((res) => {
-      this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
+      this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), "all");
       this.refreshPayableService.callback.emit(res);
     });
   }
@@ -152,7 +156,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   }
 
   getListFilteredBySearch() {
-    const observer1$: Subscription = this.searchInputService.callback.subscribe(
+    const observer2$: Subscription = this.searchInputService.callback.subscribe(
       (description) => {
         //when the use filter
         this.descriptionSearch = description;
@@ -166,12 +170,12 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
             }
           )
         } else {
-          this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"));
+          this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), "");
         }
       }
     );
 
-    this.subscriptions.push(observer1$);
+    this.subscriptions.push(observer2$);
   }
 
   getCategory(category: string) {

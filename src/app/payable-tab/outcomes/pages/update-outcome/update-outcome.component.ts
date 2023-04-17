@@ -71,7 +71,7 @@ export class UpdateOutcomeComponent implements OnInit {
     
     this.outcomeForm = this.fb.group({
       description: [description ?? null, [Validators.required]],
-      expense: [expense ?? 0.0, [Validators.required]],
+      expense: [expense ?? null, [Validators.required]],
       exchange: [exchange ?? null, [Validators.required]],
       category: [category ?? null, [Validators.required]],
       createdAt: [createdAt ? new Date(createdAt).toISOString() : new Date().toISOString(), []],

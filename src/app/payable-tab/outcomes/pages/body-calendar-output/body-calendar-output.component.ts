@@ -77,7 +77,7 @@ export class BodyCalendarOutputComponent implements OnInit {
   }
 
   getAllOutcomes(date: string) {
-    this._service.GetOutcomesByMonthAndYear(date).subscribe((data) => {
+    this._service.GetOutcomesByFilters(date, "all").subscribe((data) => {
 
       this.allOutcomes = data;
       this.totalSum();

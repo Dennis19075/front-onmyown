@@ -5,9 +5,16 @@
   placeholder="Search your outcome 🍭"
 ></ion-searchbar>
 <div class="wrapper">
-  <div class="ion-button ion-activatable ripple-parent" (click)="calendarMode()">
-    <div *ngIf="!isCalendarMode"><ion-icon name="calendar-outline"></ion-icon> Calendar</div>
-    <div *ngIf="isCalendarMode"><ion-icon name="list-outline"></ion-icon> List</div>
+  <div
+    class="ion-button ion-activatable ripple-parent"
+    (click)="calendarMode()"
+  >
+    <div *ngIf="!isCalendarMode">
+      <ion-icon name="calendar-outline"></ion-icon> Calendar
+    </div>
+    <div *ngIf="isCalendarMode">
+      <ion-icon name="list-outline"></ion-icon> List
+    </div>
     <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
   </div>
 
@@ -55,8 +62,36 @@
             </ion-modal>
           </ion-col>
         </ion-row>
-        <!-- <ion-row class="custom-filter">
-          <ion-col>
+
+        <ion-row class="custom-filter">
+          <ion-select
+            formControlName="category"
+            type="text"
+            required
+            aria-label="fruit"
+            placeholder="Select category"
+          >
+            <ion-select-option value="all">All</ion-select-option>
+            <ion-select-option value="alimentacion"
+              >Alimentación</ion-select-option
+            >
+            <ion-select-option value="diversion">Diversión</ion-select-option>
+            <ion-select-option value="deportes">Deportes</ion-select-option>
+            <ion-select-option value="casa">Casa</ion-select-option>
+            <ion-select-option value="profesional"
+              >Profesional</ion-select-option
+            >
+            <ion-select-option value="transporte">Transporte</ion-select-option>
+            <ion-select-option value="ropa">Ropa</ion-select-option>
+            <ion-select-option value="saludehigiene"
+              >Salud e higiene</ion-select-option
+            >
+            <ion-select-option value="cuentasypagos"
+              >Cuentas y pagos</ion-select-option
+            >
+            <ion-select-option value="otros">Otros gastos</ion-select-option>
+          </ion-select>
+          <!-- <ion-col>
             <div>By Day</div>
           </ion-col>
           <ion-col>
@@ -71,8 +106,8 @@
                 ></ion-datetime>
               </ng-template>
             </ion-modal>
-          </ion-col>
-        </ion-row> -->
+          </ion-col> -->
+        </ion-row>
         <ion-row>
           <ion-col>
             <ion-button
