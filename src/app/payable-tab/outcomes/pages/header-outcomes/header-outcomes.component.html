@@ -23,7 +23,9 @@
     id="open-modal-filters"
     expand="block"
   >
-    <ion-icon name="options-outline"></ion-icon> Filters
+    <ion-icon name="options-outline"></ion-icon>
+    <div class="options-label">Filters</div>
+    <ion-badge *ngIf="countFilter>0" slot="end">{{countFilter}}</ion-badge>
     <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
   </div>
 </div>

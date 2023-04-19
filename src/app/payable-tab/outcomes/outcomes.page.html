@@ -1,4 +1,14 @@
 <ion-header>
+  <!-- <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Outcomes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="danger"> {{-this.totalOutcomes | currency:'EUR':true}} </ion-button>
+    </ion-buttons>
+  </ion-toolbar> -->
+
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/"></ion-back-button>
@@ -8,6 +18,9 @@
       <ion-button color="danger"> {{-this.totalOutcomes | currency:'EUR':true}} </ion-button>
     </ion-buttons>
   </ion-toolbar>
+  <!-- <ion-toolbar>
+    <ion-searchbar></ion-searchbar>
+  </ion-toolbar> -->
 </ion-header>
 
 <ion-content class="no-scroll">
@@ -17,8 +30,10 @@
   </app-header-outcomes>
   <app-body-outcomes
     *ngIf="!isCalendarMode"
+    [dateSelectedByDay]="dateSelectedByDay"
     (totalOutcomesOutput)="getTotalOutcomes($event)"
   ></app-body-outcomes>
   <app-body-calendar-output *ngIf="isCalendarMode"
+  (isCalendarModeOutcomeOutput)="getOutcomeByDay($event)"
   ></app-body-calendar-output>
 </ion-content>

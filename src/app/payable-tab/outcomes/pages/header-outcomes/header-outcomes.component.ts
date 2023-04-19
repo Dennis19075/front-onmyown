@@ -30,6 +30,8 @@ export class HeaderOutcomesComponent implements OnInit {
 
   outcomeFiltersForm: FormGroup;
 
+  countFilter: number;
+
   constructor(
     public _service: PayableService,
     private router: Router,
@@ -53,13 +55,16 @@ export class HeaderOutcomesComponent implements OnInit {
   }
 
   applyFilter() {
-    console.log('form ', this.outcomeFiltersForm.value);
+    this.countFilter = Object.keys(this.outcomeFiltersForm.value).length;
+    if (this.outcomeFiltersForm.value.category=="all") {
+      this.countFilter -= 1;
+    }
+    
     this.filterByDate.callback.emit(this.outcomeFiltersForm.value);
     this.modalFilters.dismiss({
       // this will dismiss current open modal.
       dismissed: true,
     });
-    // this.outcomeFiltersForm.reset();
   }
 
   // getOutcomesByDay() {
@@ -68,7 +73,7 @@ export class HeaderOutcomesComponent implements OnInit {
 
   cancel() {
     this.modalFilters.dismiss(null, 'cancel');
-    this.outcomeFiltersForm.reset();
+    // this.outcomeFiltersForm.reset();
   }
 
   resetFilters() {
@@ -84,11 +89,10 @@ export class HeaderOutcomesComponent implements OnInit {
   }
 
   handleInput(event: any) {
-    console.log("EVENTO SEARCH: ", event.target.value);
     if (event.target.value!="") {
       this.searchInputService.callback.emit(event.target.value);
     } else {
-      this.searchInputService.callback.emit("none");
+      this.searchInputService.callback.emit("");
     }
   }
 

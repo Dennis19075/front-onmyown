@@ -13,6 +13,7 @@ import { BodyOutcomesComponent } from './pages/body-outcomes/body-outcomes.compo
 import { UpdateOutcomeComponent } from './pages/update-outcome/update-outcome.component';
 import { BodyCalendarOutputComponent } from './pages/body-calendar-output/body-calendar-output.component';
 
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   imports: [
@@ -20,7 +21,8 @@ import { BodyCalendarOutputComponent } from './pages/body-calendar-output/body-c
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    OutcomesPageRoutingModule
+    OutcomesPageRoutingModule,
+    Ng2SearchPipeModule,
   ],
   declarations: [OutcomesPage, UpdateOutcomeComponent, HeaderOutcomesComponent, BodyOutcomesComponent, BodyCalendarOutputComponent]
 })

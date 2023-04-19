@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IonModal, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -19,6 +19,8 @@ export class BodyCalendarOutputComponent implements OnInit {
   subscriptions: Subscription[] = [];
 
   createdAtDateFilter: string = new Date().toISOString();
+
+  @Output() isCalendarModeOutcomeOutput = new EventEmitter<number>();
 
   @ViewChild(IonModal) modal: IonModal;
 
@@ -47,6 +49,11 @@ export class BodyCalendarOutputComponent implements OnInit {
       category: new FormControl('', [Validators.required]),
       createdAt: new FormControl(new Date().toISOString(), []),
     });
+  }
+
+  dateChanged() {
+    console.log("DATE SELCETED CALENDAR: ", this.selectedDate);
+    this.isCalendarModeOutcomeOutput.emit(this.selectedDate);
   }
 
   getListFilteredByDate() {
@@ -113,7 +120,9 @@ export class BodyCalendarOutputComponent implements OnInit {
     }, 2000);
   }
 
-
+  resetCalendar() {
+    this.isCalendarModeOutcomeOutput.emit();
+  }
   
 
 }

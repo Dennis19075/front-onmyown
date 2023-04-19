@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -25,6 +26,8 @@ import { SearchInputService } from 'src/app/payable-tab/services/searchInput/sea
 export class BodyOutcomesComponent implements OnInit, OnDestroy {
   @Output() totalOutcomesOutput = new EventEmitter<number>();
 
+  @Input() dateSelectedByDay: string;
+
   subscriptions: Subscription[] = [];
 
   outcome: Outcome = {
@@ -40,6 +43,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   };
 
   allOutcomes: any;
+  outcomesSearchbar: any;
   totalOutcomes: number = 0;
 
   selectedDate: any;
@@ -82,14 +86,14 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initForm();
-    //TODO: move these function inside the subscription to filter always by month. I have current month and
-    // year set by default so It should work when the user enter at the first time.
-    this.getListFilteredByDate();
+    if (this.dateSelectedByDay) {
+      this.getOutcomesByDay();
+    } else {
+      this.getListFilteredByDate();
+    }
     this.getListFilteredBySearch();
     //for the first time
     this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), this.categoryFilter);
-    
   }
 
   getListFilteredByDate() {
@@ -107,17 +111,17 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     this.subscriptions.push(observer1$);
   }
 
-  initForm() {
+  // initForm() {
 
-    this.outcomeForm = this.formBuilder.group({
-      // createdAt: ['', Validators.required],
-      description: new FormControl('', [Validators.required]),
-      // responsable: new FormControl('', [Validators.required]),
-      expense: new FormControl('', [Validators.required]),
-      category: new FormControl('', [Validators.required]),
-      createdAt: new FormControl(new Date().toISOString(), []),
-    });
-  }
+  //   this.outcomeForm = this.formBuilder.group({
+  //     // createdAt: ['', Validators.required],
+  //     description: new FormControl('', [Validators.required]),
+  //     // responsable: new FormControl('', [Validators.required]),
+  //     expense: new FormControl('', [Validators.required]),
+  //     category: new FormControl('', [Validators.required]),
+  //     createdAt: new FormControl(new Date().toISOString(), []),
+  //   });
+  // }
 
   handleRefresh(event: any) {
     setTimeout(() => {
@@ -134,6 +138,14 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
       this.totalSum();
       this.totalOutcomesOutput.emit(this.totalOutcomes);
     });
+  }
+
+  getOutcomesByDay() {
+    this._service.GetOutcomesByDay(this.dateSelectedByDay).subscribe(
+      (data) => {
+        console.log("data by day", data);
+        this.allOutcomes = data;
+      });
   }
 
   totalSum() {
@@ -158,23 +170,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   getListFilteredBySearch() {
     const observer2$: Subscription = this.searchInputService.callback.subscribe(
       (description) => {
-        //when the use filter
         this.descriptionSearch = description;
-        console.log("DATA FILTER SEARCH: ", description);
-        console.log("CURRENT DATE: ", this.createdAtDateFilter.split(":").join("%3A"));
-        
-        if (description) {
-          this._service.GetOutcomesBySearch(this.createdAtDateFilter.split(":").join("%3A"), description).subscribe(
-            (data) => {
-              this.allOutcomes = data;
-              this.totalSum();
-              this.totalOutcomesOutput.emit(this.totalOutcomes);
-            }
-          )
-          
-        } else {
-          this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), "");
-        }
       }
     );
 

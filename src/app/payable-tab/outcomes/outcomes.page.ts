@@ -17,6 +17,8 @@ export class OutcomesPage implements OnInit {
 
   isCalendarMode: boolean = false;
 
+  dateSelectedByDay: string;
+
   constructor(
     public _service: PayableService,
   ) {
@@ -34,6 +36,18 @@ export class OutcomesPage implements OnInit {
     if (!this.isCalendarMode) {
       this.isCalendarMode = true;
     } else {
+      this.isCalendarMode = false;
+    }
+  }
+
+  getOutcomeByDay($event: any) {
+
+    if ($event) {
+      console.log("filtering by day: ", $event);
+      this.dateSelectedByDay = $event;
+      this.isCalendarMode = false;
+    } else {
+      console.log("show all outcomes");
       this.isCalendarMode = false;
     }
   }
