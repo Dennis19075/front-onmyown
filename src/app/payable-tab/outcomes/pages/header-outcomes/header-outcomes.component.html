@@ -25,7 +25,7 @@
   >
     <ion-icon name="options-outline"></ion-icon>
     <div class="options-label">Filters</div>
-    <ion-badge *ngIf="countFilter>0" slot="end">{{countFilter}}</ion-badge>
+    <ion-badge *ngIf="countFilter > 0" slot="end">{{ countFilter }}</ion-badge>
     <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
   </div>
 </div>
@@ -66,51 +66,43 @@
         </ion-row>
 
         <ion-row class="custom-filter">
-          <ion-select
-            formControlName="category"
-            type="text"
-            required
-            aria-label="fruit"
-            placeholder="Select category"
-          >
-            <ion-select-option value="all">All</ion-select-option>
-            <ion-select-option value="alimentacion"
-              >Alimentación</ion-select-option
-            >
-            <ion-select-option value="diversion">Diversión</ion-select-option>
-            <ion-select-option value="viajes">Viajes</ion-select-option>
-            <ion-select-option value="musica">Música</ion-select-option>
-            <ion-select-option value="deportes">Deportes</ion-select-option>
-            <ion-select-option value="casa">Casa</ion-select-option>
-            <ion-select-option value="profesional"
-              >Profesional</ion-select-option
-            >
-            <ion-select-option value="transporte">Transporte</ion-select-option>
-            <ion-select-option value="ropa">Ropa</ion-select-option>
-            <ion-select-option value="saludehigiene"
-              >Salud e higiene</ion-select-option
-            >
-            <ion-select-option value="cuentasypagos"
-              >Cuentas y pagos</ion-select-option
-            >
-            <ion-select-option value="otros">Otros gastos</ion-select-option>
-          </ion-select>
-          <!-- <ion-col>
-            <div>By Day</div>
+          <ion-col>
+            <div>Category</div>
           </ion-col>
           <ion-col>
-            <ion-datetime-button dateday="dateday"></ion-datetime-button>
-
-            <ion-modal [keepContentsMounted]="true">
-              <ng-template>
-                <ion-datetime
-                  formControlName="dateDay"
-                  id="datetime"
-                  presentation="month-year"
-                ></ion-datetime>
-              </ng-template>
-            </ion-modal>
-          </ion-col> -->
+            <ion-select
+              formControlName="category"
+              type="text"
+              required
+              aria-label="fruit"
+              placeholder="Select category"
+              [value]="categoryFilter"
+            >
+              <ion-select-option value="all">All</ion-select-option>
+              <ion-select-option value="alimentacion"
+                >Alimentación</ion-select-option
+              >
+              <ion-select-option value="diversion">Diversión</ion-select-option>
+              <ion-select-option value="viajes">Viajes</ion-select-option>
+              <ion-select-option value="musica">Música</ion-select-option>
+              <ion-select-option value="deportes">Deportes</ion-select-option>
+              <ion-select-option value="casa">Casa</ion-select-option>
+              <ion-select-option value="profesional"
+                >Profesional</ion-select-option
+              >
+              <ion-select-option value="transporte"
+                >Transporte</ion-select-option
+              >
+              <ion-select-option value="ropa">Ropa</ion-select-option>
+              <ion-select-option value="saludehigiene"
+                >Salud e higiene</ion-select-option
+              >
+              <ion-select-option value="cuentasypagos"
+                >Cuentas y pagos</ion-select-option
+              >
+              <ion-select-option value="otros">Otros gastos</ion-select-option>
+            </ion-select>
+          </ion-col>
         </ion-row>
         <ion-row>
           <ion-col>

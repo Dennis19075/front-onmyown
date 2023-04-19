@@ -132,8 +132,6 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   getAllOutcomes(date: string, category: string) {
     this._service.GetOutcomesByFilters(date, category).subscribe((data) => {
-      // console.log("DATA LIST: ", data);
-      
       this.allOutcomes = data;
       this.totalSum();
       this.totalOutcomesOutput.emit(this.totalOutcomes);

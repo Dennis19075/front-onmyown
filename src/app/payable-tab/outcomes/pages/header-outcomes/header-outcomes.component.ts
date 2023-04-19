@@ -24,6 +24,8 @@ export class HeaderOutcomesComponent implements OnInit {
 
   @Input() isCalendarMode: boolean;
 
+  categoryFilter: string = "all";
+
   filters: any = {
     date: new Date(),
   };
@@ -55,8 +57,15 @@ export class HeaderOutcomesComponent implements OnInit {
   }
 
   applyFilter() {
+
+    console.log("this.outcomeFiltersForm.value.date ", this.outcomeFiltersForm.value.date);
+    let selectedDate = new Date(this.outcomeFiltersForm.value.date)
+
     this.countFilter = Object.keys(this.outcomeFiltersForm.value).length;
     if (this.outcomeFiltersForm.value.category=="all") {
+      this.countFilter -= 1;
+    }
+    if (selectedDate.getMonth()==new Date().getMonth() && selectedDate.getFullYear()==new Date().getFullYear()) {
       this.countFilter -= 1;
     }
     
@@ -78,8 +87,9 @@ export class HeaderOutcomesComponent implements OnInit {
 
   resetFilters() {
     let today = {date: new Date().toISOString(), category: 'all'};
-    this.outcomeFiltersForm.reset();
-    console.log("today: ", today);
+    this.outcomeFiltersForm.value.date = today.date;
+    this.outcomeFiltersForm.value.category = today.category;
+    this.initForm();
     
     this.filterByDate.callback.emit(today);
   }
