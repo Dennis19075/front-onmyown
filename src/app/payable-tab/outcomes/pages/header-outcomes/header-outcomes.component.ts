@@ -72,7 +72,7 @@ export class HeaderOutcomesComponent implements OnInit {
   }
 
   resetFilters() {
-    let today = {date: new Date().toISOString()};
+    let today = {date: new Date().toISOString(), category: 'all'};
     this.outcomeFiltersForm.reset();
     console.log("today: ", today);
     
