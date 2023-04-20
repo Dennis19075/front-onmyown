@@ -94,8 +94,10 @@ export class HeaderOutcomesComponent implements OnInit {
     this.filterByDate.callback.emit(today);
   }
 
-  calendarMode() {
-    this.isCalendarModeOutcomeOutput.emit();
+  changeOutcomeTabs($event: any) {
+    console.log("$event: ", $event.detail.value);
+    
+    this.isCalendarModeOutcomeOutput.emit($event.detail.value);
   }
 
   handleInput(event: any) {

@@ -24,11 +24,15 @@ import { SearchInputService } from 'src/app/payable-tab/services/searchInput/sea
   styleUrls: ['./body-outcomes.component.scss'],
 })
 export class BodyOutcomesComponent implements OnInit, OnDestroy {
+  @ViewChild(IonModal) modalFilters: IonModal;
+
   @Output() totalOutcomesOutput = new EventEmitter<number>();
 
   @Input() dateSelectedByDay: string;
 
   subscriptions: Subscription[] = [];
+
+  countFilter: number;
 
   outcome: Outcome = {
     createdAt: new Date().toISOString(),
@@ -58,6 +62,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   categoryFilter: string = "all";
 
+  outcomeFiltersForm: FormGroup;
+
   @ViewChild(IonModal) modal: IonModal;
 
   constructor(
@@ -86,14 +92,13 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initForm();
     if (this.dateSelectedByDay) {
       this.getOutcomesByDay();
     } else {
-      this.getListFilteredByDate();
+      // this.getListFilteredByDate();
+      this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), this.categoryFilter);
     }
-    this.getListFilteredBySearch();
-    //for the first time
-    this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), this.categoryFilter);
   }
 
   getListFilteredByDate() {
@@ -110,18 +115,6 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
     this.subscriptions.push(observer1$);
   }
-
-  // initForm() {
-
-  //   this.outcomeForm = this.formBuilder.group({
-  //     // createdAt: ['', Validators.required],
-  //     description: new FormControl('', [Validators.required]),
-  //     // responsable: new FormControl('', [Validators.required]),
-  //     expense: new FormControl('', [Validators.required]),
-  //     category: new FormControl('', [Validators.required]),
-  //     createdAt: new FormControl(new Date().toISOString(), []),
-  //   });
-  // }
 
   handleRefresh(event: any) {
     setTimeout(() => {
@@ -165,14 +158,53 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     this.outcomeForm.reset();
   }
 
-  getListFilteredBySearch() {
-    const observer2$: Subscription = this.searchInputService.callback.subscribe(
-      (description) => {
-        this.descriptionSearch = description;
-      }
-    );
+  initForm() {
+    this.outcomeFiltersForm = new FormGroup({
+      date: new FormControl(new Date().toISOString(), [Validators.required]),
+      category: new FormControl('all', [Validators.required])
+    });
+  }
 
-    this.subscriptions.push(observer2$);
+  applyFilter() {
+
+    console.log("this.outcomeFiltersForm.value.date ", this.outcomeFiltersForm.value.date);
+    let selectedDate = new Date(this.outcomeFiltersForm.value.date)
+
+    this.countFilter = Object.keys(this.outcomeFiltersForm.value).length;
+    if (this.outcomeFiltersForm.value.category=="all") {
+      this.countFilter -= 1;
+    }
+    if (selectedDate.getMonth()==new Date().getMonth() && selectedDate.getFullYear()==new Date().getFullYear()) {
+      this.countFilter -= 1;
+    }
+    console.log("this.outcomeFiltersForm.value" ,this.outcomeFiltersForm.value);
+    this.getAllOutcomes(this.outcomeFiltersForm.value.date, this.outcomeFiltersForm.value.category)
+    // this.filterByDate.callback.emit(this.outcomeFiltersForm.value);
+    this.modalFilters.dismiss({
+      // this will dismiss current open modal.
+      dismissed: true,
+    });
+  }
+
+  cancelFilters() {
+    this.modalFilters.dismiss(null, 'cancel');
+  }
+
+  resetFilters() {
+    let today = {date: new Date().toISOString(), category: 'all'};
+    this.outcomeFiltersForm.value.date = today.date;
+    this.outcomeFiltersForm.value.category = today.category;
+    this.initForm();
+    this.getAllOutcomes(this.outcomeFiltersForm.value.date, this.outcomeFiltersForm.value.category)
+  }
+
+
+  handleInput(event: any) {
+    if (event.target.value!="") {
+      this.searchInputService.callback.emit(event.target.value);
+    } else {
+      this.searchInputService.callback.emit("");
+    }
   }
 
   getCategory(category: string) {

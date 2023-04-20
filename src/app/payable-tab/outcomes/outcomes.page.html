@@ -25,15 +25,12 @@
 
 <ion-content class="no-scroll">
   <app-header-outcomes
-  [isCalendarMode]="isCalendarMode"
   (isCalendarModeOutcomeOutput)="activateCalendarMode($event)">
   </app-header-outcomes>
   <app-body-outcomes
-    *ngIf="!isCalendarMode"
-    [dateSelectedByDay]="dateSelectedByDay"
+    *ngIf="tabSelected=='outcome-list'"
     (totalOutcomesOutput)="getTotalOutcomes($event)"
   ></app-body-outcomes>
-  <app-body-calendar-output *ngIf="isCalendarMode"
-  (isCalendarModeOutcomeOutput)="getOutcomeByDay($event)"
+  <app-body-calendar-output *ngIf="tabSelected=='outcome-calendar'"
   ></app-body-calendar-output>
 </ion-content>

@@ -1,11 +1,47 @@
-<ion-searchbar
-  (ionInput)="handleInput($event)"
-  class="custom-search-bar"
-  animated="true"
-  placeholder="Search your outcome 🍭"
-></ion-searchbar>
-<div class="wrapper">
-  <div
+<!-- TODO: move this search bar to the body component list because is a search bar just for the list -->
+<!-- <ion-row>
+  <ion-col size="9">
+    <ion-searchbar
+      (ionInput)="handleInput($event)"
+      class="custom-search-bar"
+      animated="true"
+      placeholder="Search your outcome 🍭"
+    ></ion-searchbar>
+  </ion-col>
+  <ion-col>
+    <div
+      class="ion-button ion-activatable ripple-parent"
+      id="open-modal-filters"
+      expand="block"
+    >
+      <ion-icon name="options-outline"></ion-icon>
+      <div class="options-label">Filters</div>
+      <ion-badge *ngIf="countFilter > 0" slot="end">{{
+        countFilter
+      }}</ion-badge>
+      <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
+    </div>
+  </ion-col>
+</ion-row> -->
+
+<ion-row>
+  <ion-col>
+    <ion-segment value="outcome-list" (ionChange)="changeOutcomeTabs($event)">
+      <ion-segment-button value="outcome-list">
+        <ion-icon name="list-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="outcome-calendar">
+        <ion-icon name="calendar-outline"></ion-icon>
+      </ion-segment-button>
+      <!-- <ion-segment-button value="outcome-stats">
+        <ion-icon name="analytics-outline"></ion-icon>
+      </ion-segment-button> -->
+    </ion-segment>
+  </ion-col>
+</ion-row>
+
+<!-- <div class="wrapper"> -->
+  <!-- <div
     class="ion-button ion-activatable ripple-parent"
     (click)="calendarMode()"
   >
@@ -16,9 +52,9 @@
       <ion-icon name="list-outline"></ion-icon> List
     </div>
     <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
-  </div>
+  </div> -->
 
-  <div
+  <!-- <div
     class="ion-button ion-activatable ripple-parent"
     id="open-modal-filters"
     expand="block"
@@ -27,10 +63,10 @@
     <div class="options-label">Filters</div>
     <ion-badge *ngIf="countFilter > 0" slot="end">{{ countFilter }}</ion-badge>
     <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
-  </div>
-</div>
+  </div> -->
+<!-- </div> -->
 
-<ion-modal #modalFilters trigger="open-modal-filters">
+<!-- <ion-modal  #modalFilters trigger="open-modal-filters">
   <ng-template>
     <ion-header>
       <ion-toolbar>
@@ -125,4 +161,4 @@
       </form>
     </ion-content>
   </ng-template>
-</ion-modal>
+</ion-modal> -->

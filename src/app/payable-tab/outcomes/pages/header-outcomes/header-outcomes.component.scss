@@ -1,7 +1,10 @@
+ion-segment {
+  --background: #64ffb2;
+}
+
 .custom-date-filters {
     display: flex;
 }
-
 
 .custom-search-button{
     background-color: aliceblue; 
@@ -57,4 +60,8 @@
 
   .options-label {
     margin-right: 0.2rem;
+  }
+
+  .no-scroll {
+    --overflow: hidden;
   }

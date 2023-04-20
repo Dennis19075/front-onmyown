@@ -8,19 +8,40 @@
     <ion-icon name="add"></ion-icon>
   </ion-fab-button>
 </ion-fab>
+<ion-row class="custom-search-filters">
+  <ion-col size="10" class="custom-col-search-bar">
+    <ion-searchbar
+      [(ngModel)]="descriptionSearch"
+      class="custom-search-bar"
+      animated="true"
+      placeholder="Search your outcome"
+    ></ion-searchbar>
+  </ion-col>
+  <ion-col class="custom-filters">
+    <div
+      class="ion-button ion-activatable ripple-parent"
+      id="open-modal-filters"
+      expand="block"
+    >
+      <div><ion-icon name="options-outline"></ion-icon>Filters</div>
+      <ion-badge *ngIf="countFilter > 0" slot="end">{{
+        countFilter
+      }}</ion-badge>
+      <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-item-divider>
+  <ion-label class="custom-ion-label-total-outcomes">
+    Outcomes: {{ (allOutcomes | filter:descriptionSearch)?.length }}
+    <!-- (customerData | myFilter:searchTerm)?.length -->
+  </ion-label>
+</ion-item-divider>
 
 <ion-content>
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
-
-  <ion-item-divider>
-    <ion-label class="custom-ion-label-total-outcomes">
-      Outcomes: {{ (allOutcomes | filter:descriptionSearch)?.length }}
-      <!-- (customerData | myFilter:searchTerm)?.length -->
-    </ion-label>
-  </ion-item-divider>
-
   <ion-list class="custom-outcome-list">
     <ion-item-sliding *ngFor="let item of (descriptionSearch!='' ? (allOutcomes | filter:descriptionSearch) : allOutcomes)">
       <ion-item (click)="openModal(item.id)">
@@ -43,3 +64,100 @@
   </ion-list>
   <!-- <ion-button id="open-modal" expand="block">Open</ion-button> -->
 </ion-content>
+
+<ion-modal  #modalFilters trigger="open-modal-filters">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancelFilters()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>Filters</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <form
+        [formGroup]="outcomeFiltersForm"
+        (ngSubmit)="applyFilter()"
+        novalidate
+      >
+        <ion-row class="custom-filter">
+          <ion-col>
+            <div>By Month and Year</div>
+          </ion-col>
+          <ion-col>
+            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime
+                  formControlName="date"
+                  id="datetime"
+                  presentation="month-year"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="custom-filter">
+          <ion-col>
+            <div>Category</div>
+          </ion-col>
+          <ion-col>
+            <ion-select
+              formControlName="category"
+              type="text"
+              required
+              aria-label="fruit"
+              placeholder="Select category"
+              [value]="categoryFilter"
+            >
+              <ion-select-option value="all">All</ion-select-option>
+              <ion-select-option value="alimentacion"
+                >Alimentación</ion-select-option
+              >
+              <ion-select-option value="diversion">Diversión</ion-select-option>
+              <ion-select-option value="viajes">Viajes</ion-select-option>
+              <ion-select-option value="musica">Música</ion-select-option>
+              <ion-select-option value="deportes">Deportes</ion-select-option>
+              <ion-select-option value="casa">Casa</ion-select-option>
+              <ion-select-option value="profesional"
+                >Profesional</ion-select-option
+              >
+              <ion-select-option value="transporte"
+                >Transporte</ion-select-option
+              >
+              <ion-select-option value="ropa">Ropa</ion-select-option>
+              <ion-select-option value="saludehigiene"
+                >Salud e higiene</ion-select-option
+              >
+              <ion-select-option value="cuentasypagos"
+                >Cuentas y pagos</ion-select-option
+              >
+              <ion-select-option value="otros">Otros gastos</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              [disabled]="!outcomeFiltersForm.valid"
+              type="submit"
+              color="primary"
+              expand="block"
+              >Apply</ion-button
+            >
+            <ion-button
+              [disabled]="!outcomeFiltersForm.valid"
+              color="warning"
+              expand="block"
+              (click)="resetFilters()"
+              >Reset filters</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>

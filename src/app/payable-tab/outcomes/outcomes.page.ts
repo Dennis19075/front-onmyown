@@ -15,7 +15,7 @@ export class OutcomesPage implements OnInit {
 
   totalOutcomes: number = 0;
 
-  isCalendarMode: boolean = false;
+  tabSelected: string = "outcome-list";
 
   dateSelectedByDay: string;
 
@@ -33,22 +33,23 @@ export class OutcomesPage implements OnInit {
   }
   
   activateCalendarMode($event: any) {
-    if (!this.isCalendarMode) {
-      this.isCalendarMode = true;
-    } else {
-      this.isCalendarMode = false;
-    }
+    this.tabSelected = $event;
   }
 
   getOutcomeByDay($event: any) {
 
-    if ($event) {
-      console.log("filtering by day: ", $event);
-      this.dateSelectedByDay = $event;
-      this.isCalendarMode = false;
-    } else {
-      console.log("show all outcomes");
-      this.isCalendarMode = false;
-    }
+    console.log("event: ", $event);
+
+    this.dateSelectedByDay = $event;
+    this.tabSelected = "outcome-list";
+
+    console.log("tabSleceted: ", this.tabSelected);
+    
+    // if ($event) {
+    //   console.log("filtering by day: ", $event);
+    //   this.dateSelectedByDay = $event;
+    // } else {
+    //   console.log("show all outcomes");
+    // }
   }
 }
