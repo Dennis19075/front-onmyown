@@ -29,8 +29,7 @@
   </app-header-outcomes>
   <app-body-outcomes
     *ngIf="tabSelected=='outcome-list'"
-    (totalOutcomesOutput)="getTotalOutcomes($event)"
   ></app-body-outcomes>
-  <app-body-calendar-output *ngIf="tabSelected=='outcome-calendar'"
+  <app-body-calendar-output [totalOutcomes]="totalOutcomes" *ngIf="tabSelected=='outcome-calendar'"
   ></app-body-calendar-output>
 </ion-content>

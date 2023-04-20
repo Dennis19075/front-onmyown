@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 import { UpdateOutcomeComponent } from '../update-outcome/update-outcome.component';
 import { RefreshPayableService } from 'src/app/payable-tab/services/refresh-payable/refresh-payable.service';
 import { SearchInputService } from 'src/app/payable-tab/services/searchInput/search-input.service';
+import { GetTotalOutcomesService } from 'src/app/payable-tab/services/getTotalOutcomes/get-total-outcomes.service';
 
 
 @Component({
@@ -29,7 +30,9 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   @Output() totalOutcomesOutput = new EventEmitter<number>();
 
   @Input() dateSelectedByDay: string;
-
+  @Input() hideFilterInput: boolean;
+  @Input() selectedDateFromCalendar: string;
+  
   subscriptions: Subscription[] = [];
 
   countFilter: number;
@@ -72,7 +75,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     private filterByDate: FilterByDateService,
     private modalCtrl: ModalController,
     private refreshPayableService: RefreshPayableService,
-    private searchInputService: SearchInputService
+    private searchInputService: SearchInputService,
+    private getTotalOutcomesService: GetTotalOutcomesService
   ) {
   }
 
@@ -93,7 +97,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initForm();
-    if (this.dateSelectedByDay) {
+    if (this.selectedDateFromCalendar) {
       this.getOutcomesByDay();
     } else {
       // this.getListFilteredByDate();
@@ -127,15 +131,19 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     this._service.GetOutcomesByFilters(date, category).subscribe((data) => {
       this.allOutcomes = data;
       this.totalSum();
-      this.totalOutcomesOutput.emit(this.totalOutcomes);
+      // this.totalOutcomesOutput.emit(this.totalOutcomes);
+      this.getTotalOutcomesService.callback.emit(this.totalOutcomes);
     });
   }
 
   getOutcomesByDay() {
-    this._service.GetOutcomesByDay(this.dateSelectedByDay).subscribe(
+    this._service.GetOutcomesByDay(this.selectedDateFromCalendar).subscribe(
       (data) => {
         console.log("data by day", data);
         this.allOutcomes = data;
+        this.totalSum();
+        // this.totalOutcomesOutput.emit(this.totalOutcomes);
+        this.getTotalOutcomesService.callback.emit(this.totalOutcomes);
       });
   }
 

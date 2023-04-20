@@ -5,6 +5,7 @@ import { IonModal } from '@ionic/angular';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { Outcome } from './outcome.model';
 import { RefreshPayableService } from '../services/refresh-payable/refresh-payable.service';
+import { GetTotalOutcomesService } from '../services/getTotalOutcomes/get-total-outcomes.service';
 
 @Component({
   selector: 'app-outcomes',
@@ -21,15 +22,20 @@ export class OutcomesPage implements OnInit {
 
   constructor(
     public _service: PayableService,
+    private getTotalOutcomesService: GetTotalOutcomesService
   ) {
   }
 
   ngOnInit(): void {
-    
+    this.getUpdatedTotalOutcomes();
   }
 
-  getTotalOutcomes($event: number) {
-     this.totalOutcomes = $event;
+  getUpdatedTotalOutcomes() {
+    this.getTotalOutcomesService.callback.subscribe(
+      (data) => {
+        this.totalOutcomes = data;
+      }
+    );
   }
   
   activateCalendarMode($event: any) {
@@ -44,12 +50,5 @@ export class OutcomesPage implements OnInit {
     this.tabSelected = "outcome-list";
 
     console.log("tabSleceted: ", this.tabSelected);
-    
-    // if ($event) {
-    //   console.log("filtering by day: ", $event);
-    //   this.dateSelectedByDay = $event;
-    // } else {
-    //   console.log("show all outcomes");
-    // }
   }
 }

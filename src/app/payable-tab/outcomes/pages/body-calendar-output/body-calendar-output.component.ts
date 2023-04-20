@@ -1,10 +1,12 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IonModal, ModalController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { UpdateOutcomeComponent } from '../update-outcome/update-outcome.component';
 import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/filter-by-date.service';
+import { OutcomesPerdayComponent } from './outcomes-perday/outcomes-perday.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-body-calendar-output',
@@ -13,8 +15,11 @@ import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/f
 })
 export class BodyCalendarOutputComponent implements OnInit {
 
+  @Input() totalOutcomes: number;
+
+  @ViewChild(IonModal) modalPerday: IonModal;
+
   allOutcomes: any;
-  totalOutcomes: number = 0;
 
   subscriptions: Subscription[] = [];
 
@@ -22,17 +27,24 @@ export class BodyCalendarOutputComponent implements OnInit {
 
   @Output() isCalendarModeOutcomeOutput = new EventEmitter<number>();
 
+  hideFilterInput: boolean = true;
+
   @ViewChild(IonModal) modal: IonModal;
 
   outcomeForm: FormGroup;
 
   selectedDate: any;
 
+  outcomesPerdayComponent = OutcomesPerdayComponent;
+
+  daySelected: any;
+
   constructor(
     public _service: PayableService,
     private modalCtrl: ModalController,
     private formBuilder: FormBuilder,
-    private filterByDate: FilterByDateService,) { }
+    private filterByDate: FilterByDateService,
+    private router: Router,) { }
 
   ngOnInit() {
     this.initForm();
@@ -49,11 +61,6 @@ export class BodyCalendarOutputComponent implements OnInit {
       category: new FormControl('', [Validators.required]),
       createdAt: new FormControl(new Date().toISOString(), []),
     });
-  }
-
-  dateChanged() {
-    console.log("DATE SELCETED CALENDAR: ", this.selectedDate);
-    this.isCalendarModeOutcomeOutput.emit(this.selectedDate);
   }
 
   getListFilteredByDate() {
@@ -122,6 +129,10 @@ export class BodyCalendarOutputComponent implements OnInit {
 
   resetCalendar() {
     this.isCalendarModeOutcomeOutput.emit();
+  }
+
+  cancelFilters() {
+    this.modalPerday.dismiss(null, 'cancel');
   }
   
 

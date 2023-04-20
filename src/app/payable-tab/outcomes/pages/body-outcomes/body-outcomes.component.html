@@ -1,4 +1,4 @@
-<ion-fab
+<ion-fab *ngIf="!hideFilterInput"
   size="small"
   slot="fixed"
   horizontal="end"
@@ -9,7 +9,7 @@
   </ion-fab-button>
 </ion-fab>
 <ion-row class="custom-search-filters">
-  <ion-col size="10" class="custom-col-search-bar">
+  <ion-col *ngIf="hideFilterInput" class="custom-col-search-bar">
     <ion-searchbar
       [(ngModel)]="descriptionSearch"
       class="custom-search-bar"
@@ -17,7 +17,15 @@
       placeholder="Search your outcome"
     ></ion-searchbar>
   </ion-col>
-  <ion-col class="custom-filters">
+  <ion-col *ngIf="!hideFilterInput" size="10" class="custom-col-search-bar">
+    <ion-searchbar
+      [(ngModel)]="descriptionSearch"
+      class="custom-search-bar"
+      animated="true"
+      placeholder="Search your outcome"
+    ></ion-searchbar>
+  </ion-col>
+  <ion-col *ngIf="!hideFilterInput" class="custom-filters">
     <div
       class="ion-button ion-activatable ripple-parent"
       id="open-modal-filters"
