@@ -123,7 +123,7 @@ export class PayableTabPage implements OnInit {
         labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
         datasets: [
           {
-            label: 'Total: ' + this.sumWeeks(outcomesByWeek).toString() + '$',
+            label: 'Total: ' + this.sumWeeks(outcomesByWeek).toString() + '€',
             data: [
               outcomesByWeek[0],
               outcomesByWeek[1],
@@ -170,7 +170,7 @@ export class PayableTabPage implements OnInit {
         labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
         datasets: [
           {
-            label: 'Total: 0$',
+            label: 'Total: 0€',
             data: [4, 8, 3, 5, 2, 3],
             borderWidth: 1,
             borderColor: '#00ff00',
