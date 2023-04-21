@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
 })
 export class PayableTabPage implements OnInit {
 
+  public progress = 0;
+
   outcomeChart: any;
 
   subscriptions: Subscription[] = [];
@@ -52,9 +54,18 @@ export class PayableTabPage implements OnInit {
 
   ngOnInit() {
     // this.generateOutcomes();
+    
     this.generateIncomes();
     this.getOutcomesPerWeek();
     this.getUpdatedValues();
+  }
+
+  calcSummary(outcomesByWeek: any) {
+    let outcomes = Number(this.sumWeeks(outcomesByWeek).toString());
+
+    // this 1000 should be the total incomes
+    this.progress = outcomes / 1000;
+    console.log("Getting the total outcomes: ", outcomes);
   }
 
   handleRefresh(event: any) {
@@ -88,6 +99,9 @@ export class PayableTabPage implements OnInit {
   }
 
   generateOutcomes(outcomesByWeek: any) {
+
+    this.calcSummary(outcomesByWeek);
+
     let canvas: HTMLCanvasElement = document.getElementById(
       'outcomes'
     ) as HTMLCanvasElement;

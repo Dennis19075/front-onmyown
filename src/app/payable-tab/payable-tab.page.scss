@@ -23,6 +23,8 @@ ion-card-header.ios {
 .custom-col-card-outcome {
     // margin-top: -0.5rem;
     margin-left: 0.2rem;
+    margin-bottom: -2rem;
+    margin-top: -1rem;
 }
 
 .custom-col-card-income {
@@ -37,4 +39,17 @@ ion-card-header.ios {
 .custom-row-chart {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+}
+.custom-resume {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 1rem;
+    margin-bottom: -1.2rem;
+}
+.custom-progress-bar {
+    height: 0.6rem;
+    margin-top: 0.3rem;
+}
+.summary-label {
+    font-size: 0.7rem;
 }

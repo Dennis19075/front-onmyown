@@ -8,6 +8,23 @@
 </ion-header>
 
 <ion-content>
+
+  <ion-row class="custom-resume">
+    <ion-col size="7">
+      <p class="summary-label"><b>Summary ({{progress*1000}} / 1000 €)
+      </b></p>
+    </ion-col>
+    <ion-col>
+      <ion-progress-bar class="custom-progress-bar" value="{{progress}}"></ion-progress-bar>
+    </ion-col>
+  </ion-row>
+
+  <!-- <div class="custom-resume">
+    <p><b>Summary ({{progress*1000}} / 1000 €)
+    </b></p>
+    <ion-progress-bar class="custom-progress-bar" value="{{progress}}"></ion-progress-bar>
+  </div> -->
+
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
@@ -22,42 +39,46 @@
                 <ion-card-subtitle>Your outcomes</ion-card-subtitle>
               </ion-card-header>
               <ion-card-content class="custom-card-subtitle">
-                Review your outcomes of <b>{{currentMonthLabel}} {{currentYearLabel}}</b>
+                Review your outcomes of
+                <b>{{currentMonthLabel}} {{currentYearLabel}}</b>
               </ion-card-content>
             </ion-col>
             <ion-col class="custom-forward">
-            <ion-icon class="custom-next-icon" name="chevron-forward-outline"></ion-icon>
+              <ion-icon
+                class="custom-next-icon"
+                name="chevron-forward-outline"
+              ></ion-icon>
             </ion-col>
           </ion-row>
         </ion-card>
       </ion-col>
     </ion-row>
-    <br>
     <ion-row>
       <ion-col class="custom-col-card-income">
         <ion-card color="light">
           <canvas id="incomes" width="150" height="80"></canvas>
           <ion-row class="custom-row-chart">
             <ion-col size="auto">
-              <ion-card-header  class="custom-card-header">
+              <ion-card-header class="custom-card-header">
                 <ion-card-subtitle>Your incomes</ion-card-subtitle>
               </ion-card-header>
               <ion-card-content class="custom-card-subtitle">
-                Review your incomes of <b>{{currentMonthLabel}} {{currentYearLabel}}</b>
+                Review your incomes of
+                <b>{{currentMonthLabel}} {{currentYearLabel}}</b>
               </ion-card-content>
             </ion-col>
             <ion-col class="custom-forward">
-            <ion-icon class="custom-next-icon" name="chevron-forward-outline"></ion-icon>
+              <ion-icon
+                class="custom-next-icon"
+                name="chevron-forward-outline"
+              ></ion-icon>
             </ion-col>
           </ion-row>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
-  
 </ion-content>
-
-
 
 <!-- Outcomes -->
 <!-- <ion-grid>
