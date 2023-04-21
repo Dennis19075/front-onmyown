@@ -15,38 +15,38 @@
     <ion-row>
       <ion-col class="custom-col-card-outcome">
         <ion-card color="light">
-          
           <canvas id="outcomes" width="150" height="80"></canvas>
-          <ion-row routerLink="/tabs/payable/outcomes">
+          <ion-row class="custom-row-chart" routerLink="/tabs/payable/outcomes">
             <ion-col size="auto">
-              <ion-card-header>
-                <ion-card-subtitle class="custom-card-header">Your outcomes</ion-card-subtitle>
+              <ion-card-header class="custom-card-header">
+                <ion-card-subtitle>Your outcomes</ion-card-subtitle>
               </ion-card-header>
               <ion-card-content class="custom-card-subtitle">
                 Review your outcomes of <b>{{currentMonthLabel}} {{currentYearLabel}}</b>
               </ion-card-content>
             </ion-col>
-            <ion-col>
+            <ion-col class="custom-forward">
             <ion-icon class="custom-next-icon" name="chevron-forward-outline"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-card>
       </ion-col>
     </ion-row>
+    <br>
     <ion-row>
       <ion-col class="custom-col-card-income">
         <ion-card color="light">
           <canvas id="incomes" width="150" height="80"></canvas>
-          <ion-row class="ion-align-items-center">
+          <ion-row class="custom-row-chart">
             <ion-col size="auto">
-              <ion-card-header>
-                <ion-card-subtitle class="custom-card-header">Your incomes</ion-card-subtitle>
+              <ion-card-header  class="custom-card-header">
+                <ion-card-subtitle>Your incomes</ion-card-subtitle>
               </ion-card-header>
               <ion-card-content class="custom-card-subtitle">
                 Review your incomes of <b>{{currentMonthLabel}} {{currentYearLabel}}</b>
               </ion-card-content>
             </ion-col>
-            <ion-col>
+            <ion-col class="custom-forward">
             <ion-icon class="custom-next-icon" name="chevron-forward-outline"></ion-icon>
             </ion-col>
           </ion-row>

@@ -21,7 +21,51 @@
     align-items: center;
     justify-content: center;
     margin-top: 1rem;
+    height: 75%;
   }
   .no-scroll {
     --overflow: hidden;
+  }
+
+
+  .custom-date-filters {
+    display: flex;
+  }
+
+  .custom-search-button{
+    background-color: aliceblue; 
+    border-radius: 25px; 
+    padding: 0.8rem;
+  }
+
+  .custom-filters {
+    display: flex;
+    font-size: 0.75rem;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0.3rem;
+  }
+
+  .custom-search-bar {
+    padding-top: 0;
+  }
+
+  .custom-col-search-bar {
+    margin-right: -1rem;
+    margin-left: -0.7rem;
+  }
+
+  .custom-search-filters {
+    margin-top: -0.5rem;
+  }
+
+  .custom-filter {
+    padding: 1rem;
+    align-items: center;
+  }
+  .custom-filters-label {
+    margin-right: 0.1rem;
+  }
+  .custom-filters-container {
+    display: contents;
   }

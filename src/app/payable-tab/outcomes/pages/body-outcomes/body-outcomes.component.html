@@ -14,7 +14,7 @@
       [(ngModel)]="descriptionSearch"
       class="custom-search-bar"
       animated="true"
-      placeholder="Search your outcome"
+      placeholder="Search an outcome 🍭"
     ></ion-searchbar>
   </ion-col>
   <ion-col *ngIf="!hideFilterInput" size="10" class="custom-col-search-bar">
@@ -22,16 +22,15 @@
       [(ngModel)]="descriptionSearch"
       class="custom-search-bar"
       animated="true"
-      placeholder="Search your outcome"
+      placeholder="Search an outcome 🍭"
     ></ion-searchbar>
   </ion-col>
   <ion-col *ngIf="!hideFilterInput" class="custom-filters">
     <div
-      class="ion-button ion-activatable ripple-parent"
+      class="ion-button ion-activatable ripple-parent custom-filters-container"
       id="open-modal-filters"
-      expand="block"
     >
-      <div><ion-icon name="options-outline"></ion-icon>Filters</div>
+      <div class="custom-filters-label"><ion-icon name="options-outline"></ion-icon>Filters</div>
       <ion-badge *ngIf="countFilter > 0" slot="end">{{
         countFilter
       }}</ion-badge>

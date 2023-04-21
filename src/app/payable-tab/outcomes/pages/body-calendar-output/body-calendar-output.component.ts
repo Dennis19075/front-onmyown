@@ -127,9 +127,9 @@ export class BodyCalendarOutputComponent implements OnInit {
     }, 2000);
   }
 
-  resetCalendar() {
-    this.isCalendarModeOutcomeOutput.emit();
-  }
+  // resetCalendar() {
+  //   this.isCalendarModeOutcomeOutput.emit();
+  // }
 
   cancelFilters() {
     this.modalPerday.dismiss(null, 'cancel');
