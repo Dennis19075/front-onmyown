@@ -1,17 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Payable</ion-title>
+    <ion-buttons slot="start">
+      <ion-button color="success">Balance: {{balance | currency:'EUR':true}} </ion-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button> Profile </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-
+<ion-content class="no-scroll">
   <ion-row class="custom-resume">
     <ion-col size="7">
-      <p class="summary-label"><b>Summary ({{progress*1000}} / 1000 €)
+      <p class="summary-label"><b>Summary ({{sumOutcomes}} / {{sumIncomes}} €)
       </b></p>
     </ion-col>
     <ion-col>
@@ -79,31 +80,3 @@
     </ion-row>
   </ion-grid>
 </ion-content>
-
-<!-- Outcomes -->
-<!-- <ion-grid>
-  <ion-row>
-    <ion-col></ion-col>
-    <ion-col>
-      <ion-card routerLink="/tabs/payable/outcomes">
-        <img alt="Silhouette of mountains"
-          src="../../assets/outcomes.png" />
-      </ion-card>
-    </ion-col>
-    <ion-col></ion-col>
-  </ion-row>
-</ion-grid> -->
-
-<!-- Incomes -->
-<!-- <ion-grid>
-  <ion-row>
-    <ion-col></ion-col>
-    <ion-col>
-      <ion-card routerLink="/tabs/payable/outcomes">
-        <img alt="Silhouette of mountains"
-          src="../../assets/outcomes.png" />
-      </ion-card>
-    </ion-col>
-    <ion-col></ion-col>
-  </ion-row>
-</ion-grid> -->

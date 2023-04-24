@@ -12,10 +12,17 @@ import { Subscription } from 'rxjs';
   styleUrls: ['payable-tab.page.scss'],
 })
 export class PayableTabPage implements OnInit {
+Number(arg0: string) {
+throw new Error('Method not implemented.');
+}
 
-  public progress = 0;
+  progress:  number = 0;
+  sumIncomes: number = 0;
+  sumOutcomes: number = 0;
+  balance: number = 0;
 
   outcomeChart: any;
+  incomeChart: any;
 
   subscriptions: Subscription[] = [];
 
@@ -43,6 +50,7 @@ export class PayableTabPage implements OnInit {
   component = OutcomesPage;
 
   outcomesByWeek: any = [];
+  incomesByWeek: any = [];
 
   currentMonthLabel: string;
   currentYearLabel: string;
@@ -54,18 +62,23 @@ export class PayableTabPage implements OnInit {
 
   ngOnInit() {
     // this.generateOutcomes();
-    
-    this.generateIncomes();
     this.getOutcomesPerWeek();
+    this.getIncomesPerWeek();
     this.getUpdatedValues();
   }
 
-  calcSummary(outcomesByWeek: any) {
-    let outcomes = Number(this.sumWeeks(outcomesByWeek).toString());
+  calcSummary() {
+    let outcomes = Number(this.sumWeeks(this.outcomesByWeek).toString());
+    let incomes = Number(this.sumWeeks(this.incomesByWeek).toString());
 
+    this.sumIncomes= incomes;
+    this.sumOutcomes = outcomes;
     // this 1000 should be the total incomes
-    this.progress = outcomes / 1000;
-    console.log("Getting the total outcomes: ", outcomes);
+    this.progress = outcomes / incomes;
+    this.balance = incomes - outcomes;
+    
+    console.log("Getting the total outcomes: ", this.outcomesByWeek);
+    console.log("Getting the total incomes: ", this.incomesByWeek);
   }
 
   handleRefresh(event: any) {
@@ -86,6 +99,18 @@ export class PayableTabPage implements OnInit {
     });
   }
 
+  getIncomesPerWeek() {
+    
+    this._payableService.GetIncomesByWeek().subscribe((data) => {
+      this.currentMonthLabel = this.getCurrentMonth(data);
+      console.log('this.currentMonthLabel ', this.currentMonthLabel);
+      console.log('this.currentYearLabel', this.currentYearLabel);
+      console.log("INCOMES BY WEEK: ", data);
+      
+      this.generateIncomes(data);
+    });
+  }
+
   getUpdatedValues() {
     const observer1$: Subscription = this.refreshPayableService.callback.subscribe(
       (data) => {
@@ -100,7 +125,7 @@ export class PayableTabPage implements OnInit {
 
   generateOutcomes(outcomesByWeek: any) {
 
-    this.calcSummary(outcomesByWeek);
+    this.outcomesByWeek = outcomesByWeek;
 
     let canvas: HTMLCanvasElement = document.getElementById(
       'outcomes'
@@ -147,15 +172,19 @@ export class PayableTabPage implements OnInit {
     });
   }
 
-  sumWeeks(outcomesByWeek: any) {
-    let totalOutcomesSum = 0;
-    for (let index = 0; index < outcomesByWeek.length - 2; index++) {
-      totalOutcomesSum += outcomesByWeek[index];
+  sumWeeks(xcomesByWeek: any) {
+    let totalxcomesSum = 0;
+    for (let index = 0; index < xcomesByWeek.length - 2; index++) {
+      totalxcomesSum += xcomesByWeek[index];
     }
-    return totalOutcomesSum.toFixed(2);
+    return totalxcomesSum.toFixed(2);
   }
 
-  generateIncomes() {
+  generateIncomes(incomesByWeek: any) {
+
+    this.incomesByWeek = incomesByWeek;
+    this.calcSummary();
+
     let canvas: HTMLCanvasElement = document.getElementById(
       'incomes'
     ) as HTMLCanvasElement;
@@ -164,14 +193,27 @@ export class PayableTabPage implements OnInit {
       throw new Error(`2d context not supported or canvas already initialized`);
     }
 
-    new Chart(ctx, {
+    console.log('DATA GRAH: ', incomesByWeek);
+
+    // if the graph has something on it, reload
+    if (this.incomeChart) {
+      this.incomeChart.destroy();
+    }
+
+    this.outcomeChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
         datasets: [
           {
-            label: 'Total: 0€',
-            data: [4, 8, 3, 5, 2, 3],
+            label: 'Total: ' + this.sumWeeks(incomesByWeek).toString() + '€',
+            data: [
+              incomesByWeek[0],
+              incomesByWeek[1],
+              incomesByWeek[2],
+              incomesByWeek[3],
+              incomesByWeek[4],
+            ],
             borderWidth: 1,
             borderColor: '#00ff00',
             backgroundColor: '#b3ffb3',
@@ -187,6 +229,41 @@ export class PayableTabPage implements OnInit {
       },
     });
   }
+  // generateIncomes(outcomesByWeek: any) {
+
+  //   this.calcSummary(outcomesByWeek);
+
+  //   let canvas: HTMLCanvasElement = document.getElementById(
+  //     'incomes'
+  //   ) as HTMLCanvasElement;
+  //   let ctx: CanvasRenderingContext2D | null;
+  //   if (!(ctx = canvas.getContext('2d'))) {
+  //     throw new Error(`2d context not supported or canvas already initialized`);
+  //   }
+
+  //   new Chart(ctx, {
+  //     type: 'line',
+  //     data: {
+  //       labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
+  //       datasets: [
+  //         {
+  //           label: 'Total: 0€',
+  //           data: [4, 8, 3, 5, 2, 3],
+  //           borderWidth: 1,
+  //           borderColor: '#00ff00',
+  //           backgroundColor: '#b3ffb3',
+  //         },
+  //       ],
+  //     },
+  //     options: {
+  //       scales: {
+  //         y: {
+  //           beginAtZero: true,
+  //         },
+  //       },
+  //     },
+  //   });
+  // }
 
   private getCurrentMonth(weekList: any): string {
     this.currentYearLabel = weekList[6];
