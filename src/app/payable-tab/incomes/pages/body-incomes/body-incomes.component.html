@@ -1,0 +1,144 @@
+<ion-fab 
+  size="small"
+  slot="fixed"
+  horizontal="end"
+  vertical="bottom"
+>
+  <ion-fab-button (click)="openModal('')">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+<ion-row class="custom-search-filters">
+  <ion-col size="10" class="custom-col-search-bar">
+    <ion-searchbar
+      [(ngModel)]="descriptionSearch"
+      class="custom-search-bar"
+      animated="true"
+      placeholder="Search an outcome 🍭"
+    ></ion-searchbar>
+  </ion-col>
+  <ion-col class="custom-filters">
+    <div
+      class="ion-button ion-activatable ripple-parent custom-filters-container"
+      id="open-modal-filters"
+    >
+      <div class="custom-filters-label"><ion-icon name="options-outline"></ion-icon>Filters</div>
+      <ion-badge *ngIf="countFilter > 0" slot="end" slot="end">{{
+        0
+      }}</ion-badge>
+      <ion-ripple-effect class="custom-ripple"></ion-ripple-effect>
+    </div>
+  </ion-col>
+</ion-row>
+<ion-item-divider>
+  <ion-label class="custom-ion-label-total-outcomes">
+    Incomes: {{ (allIncomes | filter:descriptionSearch)?.length }}
+    <!-- (customerData | myFilter:searchTerm)?.length -->
+  </ion-label>
+</ion-item-divider>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list class="custom-outcome-list">
+    <ion-item-sliding *ngFor="let item of (descriptionSearch!='' ? (allIncomes | filter:descriptionSearch) : allIncomes)">
+      <ion-item (click)="openModal(item.id)">
+        <ion-label>
+          <h4>{{ item.description }}</h4>
+          <p>{{ item.createdAt | date }}</p>
+        </ion-label>
+        <ion-label class="custom-item-right-data" >
+          <h4 class="custom-right-list">{{getIconExchange(item.exchange)}}{{ item.expense }}</h4>  
+          <p class="custom-right-list custom-category">{{getCategory(item.category)}}</p>
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option (click)="deleteIncome(item)" color="danger"
+          >Delete</ion-item-option
+        >
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  <!-- <ion-button id="open-modal" expand="block">Open</ion-button> -->
+</ion-content>
+
+<ion-modal  #modalFilters trigger="open-modal-filters">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="cancelFilters()">Cancel</ion-button>
+        </ion-buttons>
+        <ion-title>Filters</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <form
+        [formGroup]="incomeFiltersForm"
+        (ngSubmit)="applyFilter()"
+        novalidate
+      >
+        <ion-row class="custom-filter">
+          <ion-col>
+            <div>By Month and Year</div>
+          </ion-col>
+          <ion-col>
+            <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+            <ion-modal [keepContentsMounted]="true">
+              <ng-template>
+                <ion-datetime
+                  formControlName="date"
+                  id="datetime"
+                  presentation="month-year"
+                ></ion-datetime>
+              </ng-template>
+            </ion-modal>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="custom-filter">
+          <ion-col>
+            <div>Category</div>
+          </ion-col>
+          <ion-col>
+            <ion-select
+              formControlName="category"
+              type="text"
+              required
+              aria-label="fruit"
+              placeholder="Select category"
+              [value]="categoryFilter"
+            >
+              <ion-select-option value="sueldo">Sueldo</ion-select-option>
+              <ion-select-option value="musica"
+                >Música</ion-select-option
+              >
+              <ion-select-option value="otros">Otros</ion-select-option>
+            </ion-select>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              [disabled]="!incomeFiltersForm.valid"
+              type="submit"
+              color="primary"
+              expand="block"
+              >Apply</ion-button
+            >
+            <ion-button
+              [disabled]="!incomeFiltersForm.valid"
+              color="warning"
+              expand="block"
+              (click)="resetFilters()"
+              >Reset filters</ion-button
+            >
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-content>
+  </ng-template>
+</ion-modal>

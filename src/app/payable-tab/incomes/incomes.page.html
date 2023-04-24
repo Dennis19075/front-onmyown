@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Incomes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="success"> +{{this.totalIncomes | currency:'EUR':true}} </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- <ion-toolbar>
+    <ion-searchbar></ion-searchbar>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content class="no-scroll">
+  <app-body-incomes></app-body-incomes>
+</ion-content>

@@ -2,13 +2,15 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { Outcome } from 'src/app/payable-tab/outcomes/outcome.model';
+import { Income } from '../../incomes/income.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PayableService {
 
-  base_path = 'https://localhost:5000/api/Outcome';
+  base_path_outcomes = 'https://localhost:5000/api/Outcome';
+  base_path_incomes = 'https://localhost:5000/api/Income';
 
   constructor( public _http: HttpClient) {
 
@@ -42,7 +44,17 @@ export class PayableService {
    getOutcomes(): Observable<Outcome>
    {
     return this._http
-      .get<Outcome>(this.base_path)
+      .get<Outcome>(this.base_path_outcomes)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+   }
+
+   getIncomes(): Observable<Outcome>
+   {
+    return this._http
+      .get<Outcome>(this.base_path_incomes)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -51,7 +63,16 @@ export class PayableService {
 
    getOutcomeById(id: string) {
     return this._http
-      .get<Outcome>(this.base_path+"/"+id)
+      .get<Outcome>(this.base_path_outcomes+"/"+id)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+   }
+
+   getIncomeById(id: string) {
+    return this._http
+      .get<Outcome>(this.base_path_incomes+"/"+id)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -60,10 +81,22 @@ export class PayableService {
 
    GetOutcomesByFilters(createdAt: string, category: string): Observable<Outcome>
    {
-    console.log("BY DATE 🍭", this.base_path+"/GetOutcomesByFilters/"+createdAt+"/"+category);
+    console.log("BY DATE 🍭", this.base_path_outcomes+"/GetOutcomesByFilters/"+createdAt+"/"+category);
     
     return this._http
-      .get<Outcome>(this.base_path+"/GetOutcomesByFilters/"+createdAt+"/"+category)
+      .get<Outcome>(this.base_path_outcomes+"/GetOutcomesByFilters/"+createdAt+"/"+category)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+   }
+
+   GetIncomesByFilters(createdAt: string, category: string): Observable<Outcome>
+   {
+    console.log("BY DATE 🍭", this.base_path_incomes+"/GetIncomesByFilters/"+createdAt+"/"+category);
+    
+    return this._http
+      .get<Outcome>(this.base_path_incomes+"/GetIncomesByFilters/"+createdAt+"/"+category)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -72,10 +105,10 @@ export class PayableService {
 
    GetOutcomesByDay(createdAt: string): Observable<Outcome>
    {
-    console.log("BY DATE 🍭", this.base_path+"/GetOutcomesByDay/"+createdAt);
+    console.log("BY DATE 🍭", this.base_path_outcomes+"/GetOutcomesByDay/"+createdAt);
     
     return this._http
-      .get<Outcome>(this.base_path+"/GetOutcomesByDay/"+createdAt)
+      .get<Outcome>(this.base_path_outcomes+"/GetOutcomesByDay/"+createdAt)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -84,27 +117,24 @@ export class PayableService {
 
    GetOutcomesBySearch(createdAt: string, description: string): Observable<Outcome>
    {
-    console.log("BY DATE 🍭",this.base_path+"/GetOutcomeBySearch/"+createdAt+"?description="+description)
+    console.log("BY DATE 🍭",this.base_path_outcomes+"/GetOutcomeBySearch/"+createdAt+"?description="+description)
 
     return this._http
-    .get<Outcome>(this.base_path+"/GetOutcomeBySearch/"+createdAt+"?description="+description)
-    // .get<Outcome>(this.base_path+"/GetOutcomeBySearch/"+createdAt+"?description="+description")
+    .get<Outcome>(this.base_path_outcomes+"/GetOutcomeBySearch/"+createdAt+"?description="+description)
+    // .get<Outcome>(this.base_path_outcomes+"/GetOutcomeBySearch/"+createdAt+"?description="+description")
     // ?createdDate=3-2-3023&description=testinggggg.
     .pipe(
       retry(2),
       catchError(this.handleError)
     )
-
-
-    
    }
 
    GetOutcomesByWeek(): Observable<Outcome>
    {
-    console.log("BY WEEK 🍭", this.base_path+"/GetOutcomesByWeek");
+    console.log("BY WEEK 🍭", this.base_path_outcomes+"/GetOutcomesByWeek");
     
     return this._http
-      .get<Outcome>(this.base_path+"/GetOutcomesByWeek")
+      .get<Outcome>(this.base_path_outcomes+"/GetOutcomesByWeek")
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -113,7 +143,16 @@ export class PayableService {
 
    postOutcome(outcome: Outcome): Observable<Outcome> {
     return this._http
-    .post<Outcome>(this.base_path, JSON.stringify(outcome), this.httpOptions)
+    .post<Outcome>(this.base_path_outcomes, JSON.stringify(outcome), this.httpOptions)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+   }
+
+   postIncome(income: Income): Observable<Income> {
+    return this._http
+    .post<Income>(this.base_path_incomes, JSON.stringify(income), this.httpOptions)
     .pipe(
       retry(2),
       catchError(this.handleError)
@@ -122,7 +161,16 @@ export class PayableService {
 
    putOutcome(outcomeId: string, outcome: Outcome): Observable<Outcome> {
     return this._http
-    .put<Outcome>(this.base_path+"/"+outcomeId, JSON.stringify(outcome), this.httpOptions)
+    .put<Outcome>(this.base_path_outcomes+"/"+outcomeId, JSON.stringify(outcome), this.httpOptions)
+    .pipe(
+      retry(2),
+      catchError(this.handleError)
+    )
+   }
+
+   putIncome(incomeId: string, income: Income): Observable<Income> {
+    return this._http
+    .put<Income>(this.base_path_incomes+"/"+incomeId, JSON.stringify(income), this.httpOptions)
     .pipe(
       retry(2),
       catchError(this.handleError)
@@ -130,7 +178,11 @@ export class PayableService {
    }
 
    deleteOutcome(outcomeId: string) {
-    return this._http.delete(this.base_path+"/"+outcomeId)
+    return this._http.delete(this.base_path_outcomes+"/"+outcomeId)
+   }
+
+   deleteIncome(incomeId: string) {
+    return this._http.delete(this.base_path_incomes+"/"+incomeId)
    }
 
 }

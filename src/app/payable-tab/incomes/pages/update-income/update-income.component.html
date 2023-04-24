@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <!-- <ion-back-button defaultHref="tabs/payable/outcomes"></ion-back-button> -->
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>{{
+      incomeIdSelected ? "Update income" : "Create Income"
+    }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="incomeForm" (ngSubmit)="saveIncome()" novalidate>
+    <ion-item lines="full">
+      <ion-label position="floating">Description</ion-label>
+      <ion-input
+        autofocus
+        formControlName="description"
+        type="text"
+        required
+      ></ion-input>
+    </ion-item>
+    <!-- <ion-item lines="full">
+      <ion-label position="floating">Responsable</ion-label>
+      <ion-input
+        formControlName="responsable"
+        type="text"
+        required
+      ></ion-input>
+    </ion-item> -->
+    <ion-item lines="full">
+      <ion-select
+        formControlName="exchange"
+        type="text"
+        required
+        aria-label="fruit"
+        placeholder="Select exchange"
+      >
+        <ion-select-option value="EUR">Euro (€)</ion-select-option>
+        <ion-select-option value="USD">USD ($)</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating"
+        >Money ({{ incomeForm.value.exchange }})
+      </ion-label>
+      <ion-input formControlName="expense" type="number" required></ion-input>
+    </ion-item>
+    <!-- <ion-list> -->
+    <ion-item lines="full">
+      <ion-select
+        formControlName="category"
+        type="text"
+        required
+        aria-label="fruit"
+        placeholder="Select category"
+      >
+        <ion-select-option value="sueldo">Sueldo</ion-select-option>
+        <ion-select-option value="musica">Música</ion-select-option>
+        <ion-select-option value="otros">Otros</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- </ion-list> -->
+    <ion-item lines="full">
+      <ion-row class="custom-filter">
+        <ion-col>
+          <ion-label class="custom-date-filter-label" position="floating"
+            >Date</ion-label
+          >
+        </ion-col>
+        <ion-col>
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+        </ion-col>
+      </ion-row>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime
+            formControlName="createdAt"
+            id="datetime"
+            presentation="date"
+          ></ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-item>
+    <ion-row>
+      <ion-col>
+        <ion-button
+          [disabled]="!incomeForm.valid"
+          type="submit"
+          color="primary"
+          expand="block"
+          >{{ incomeIdSelected ? "Update" : "Create" }}</ion-button
+        >
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>
