@@ -12,9 +12,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['payable-tab.page.scss'],
 })
 export class PayableTabPage implements OnInit {
-Number(arg0: string) {
-throw new Error('Method not implemented.');
-}
 
   progress:  number = 0;
   sumIncomes: number = 0;
@@ -61,7 +58,10 @@ throw new Error('Method not implemented.');
     ) {}
 
   ngOnInit() {
-    // this.generateOutcomes();
+    this.initRequest();
+  }
+
+  initRequest() {
     this.getOutcomesPerWeek();
     this.getIncomesPerWeek();
     this.getUpdatedValues();
@@ -82,10 +82,13 @@ throw new Error('Method not implemented.');
   }
 
   handleRefresh(event: any) {
-    setTimeout(() => {
-      // Any calls to load data go here
-      event.target.complete();
-    }, 2000);
+    this.initRequest();
+    event.target.complete();
+    // setTimeout(() => {
+    //   // Any calls to load data go here
+    //   event.target.complete();
+    //   this.initRequest();
+    // }, 2000);
   }
 
   getOutcomesPerWeek() {
@@ -200,7 +203,7 @@ throw new Error('Method not implemented.');
       this.incomeChart.destroy();
     }
 
-    this.outcomeChart = new Chart(ctx, {
+    this.incomeChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: ['1st week', '2nd week', '3rd week', '4th week', '5th week'],
