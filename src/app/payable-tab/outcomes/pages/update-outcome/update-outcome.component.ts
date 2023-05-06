@@ -9,7 +9,7 @@ import { Location } from "@angular/common";
 import { ActivatedRoute, Router } from '@angular/router';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { Outcome } from '../../outcome.model';
-import { NavParams } from '@ionic/angular';
+import { NavParams, ToastController } from '@ionic/angular';
 import { RefreshPayableService } from 'src/app/payable-tab/services/refresh-payable/refresh-payable.service';
 @Component({
   selector: 'app-update-outcome',
@@ -32,8 +32,9 @@ export class UpdateOutcomeComponent implements OnInit {
     public _service: PayableService,
     private fb: FormBuilder,
     public navParams: NavParams,
-    private refreshPayableService: RefreshPayableService
-  ) {
+    private refreshPayableService: RefreshPayableService,
+    private toastController: ToastController
+    ) {
     // this.initForm();
   }
 
@@ -91,14 +92,27 @@ export class UpdateOutcomeComponent implements OnInit {
     )
     }
 
-  saveOutcome() {
+  async saveOutcome() {
     this.outcomeForm.value.userId = "639a530c058b3ae812b0e1ec";
-    
-    
     if (this.outcomeIdSelected) {
       this.updateOutcome();
+      const toast = await this.toastController.create({
+        message: 'Outcome updated!',
+        duration: 2500,
+        color: 'success',
+        position: 'bottom'
+      });
+  
+      await toast.present();
     } else {
       this.createOutcome();
+      const toast = await this.toastController.create({
+        message: 'Outcome created!',
+        duration: 2500,
+        color: 'success',
+        position: 'bottom'
+      });
+      await toast.present();
     }
     this.modal.dismiss('cancel');
 

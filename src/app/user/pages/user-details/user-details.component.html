@@ -1,0 +1,39 @@
+<ion-grid>
+  <ion-row class="custom-user">
+    <ion-col size="4"><div class="square"></div></ion-col>
+    <ion-col
+      ><span class="custom-user-name">Dennis Chicaiza A.</span>
+      <div class="custom-little-edit-icon">
+        <ion-icon name="pencil-outline"></ion-icon>
+      </div>
+    </ion-col>
+  </ion-row>
+  <ion-row class="custom-user">
+    <ion-col
+      ><ion-icon class="custom-exchange-icon" name="cash-outline"></ion-icon
+    ></ion-col>
+    <ion-col size="8">
+      <div class="my-class">
+        <span>My default exchange</span>
+        <span>Euro (€)</span>
+      </div>
+    </ion-col>
+    <ion-col>
+      <ion-button color="light">
+        <ion-icon
+          class="custom-exchange-icon"
+          name="pencil-outline"
+        ></ion-icon>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="bottom">
+      <ion-button (click)="presentAlertLogout()" color="danger" expand="block">Log Out</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-grid>

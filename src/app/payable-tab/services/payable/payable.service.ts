@@ -91,6 +91,18 @@ export class PayableService {
       )
    }
 
+   getOutcomesByWeek(createdAt: string, category: string, week: string) {
+        //GetOutcomeListByWeek/2023-04-28T18%3A00%3A24.162Z/all/1
+    console.log("BY WEEK 🍭", this.base_path_outcomes+"/GetOutcomeListByWeek/"+createdAt+"/"+category+"/"+week);
+    
+    return this._http
+      .get<Outcome>(this.base_path_outcomes+"/GetOutcomeListByWeek/"+createdAt+"/"+category+"/"+week)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
+
    GetIncomesByFilters(createdAt: string, category: string): Observable<Outcome>
    {
     console.log("BY DATE 🍭", this.base_path_incomes+"/GetIncomesByFilters/"+createdAt+"/"+category);

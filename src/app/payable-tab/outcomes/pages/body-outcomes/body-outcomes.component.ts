@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Outcome } from '../../outcome.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { IonModal, ModalController } from '@ionic/angular';
+import { IonModal, ModalController, ToastController } from '@ionic/angular';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
 import { FilterByDateService } from 'src/app/payable-tab/services/filterByDate/filter-by-date.service';
 import { Subscription } from 'rxjs';
@@ -64,6 +64,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   descriptionSearch: string;
 
   categoryFilter: string = "all";
+  weekFilter: number = 1;
 
   outcomeFiltersForm: FormGroup;
 
@@ -76,7 +77,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     private modalCtrl: ModalController,
     private refreshPayableService: RefreshPayableService,
     private searchInputService: SearchInputService,
-    private getTotalOutcomesService: GetTotalOutcomesService
+    private getTotalOutcomesService: GetTotalOutcomesService,
+    private toastController: ToastController
   ) {
   }
 
@@ -136,6 +138,16 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     });
   }
 
+  getOutcomesByWeek(date: string, category: string, week: string) {
+    this._service.getOutcomesByWeek(date, category, week).subscribe(
+      (data) => {
+        this.allOutcomes = data;
+        this.totalSum();
+        this.getTotalOutcomesService.callback.emit(this.totalOutcomes);
+      }
+    )
+  }
+
   getOutcomesByDay() {
     this._service.GetOutcomesByDay(this.selectedDateFromCalendar).subscribe(
       (data) => {
@@ -158,7 +170,19 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     this._service.deleteOutcome(item.id).subscribe((res) => {
       this.getAllOutcomes(this.createdAtDateFilter.split(":").join("%3A"), "all");
       this.refreshPayableService.callback.emit(res);
+      this.deleteOutcomeToaster();
     });
+  }
+
+  async deleteOutcomeToaster() {
+    const toast = await this.toastController.create({
+      message: 'Outcome deleted!',
+      duration: 2500,
+      color: 'danger',
+      position: 'bottom'
+    });
+
+    await toast.present();
   }
 
   cancel() {
@@ -169,7 +193,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   initForm() {
     this.outcomeFiltersForm = new FormGroup({
       date: new FormControl(new Date().toISOString(), [Validators.required]),
-      category: new FormControl('all', [Validators.required])
+      category: new FormControl('all', [Validators.required]),
+      week: new FormControl('0', [Validators.required]),
     });
   }
 
@@ -185,8 +210,22 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     if (selectedDate.getMonth()==new Date().getMonth() && selectedDate.getFullYear()==new Date().getFullYear()) {
       this.countFilter -= 1;
     }
+
     console.log("this.outcomeFiltersForm.value" ,this.outcomeFiltersForm.value);
-    this.getAllOutcomes(this.outcomeFiltersForm.value.date, this.outcomeFiltersForm.value.category)
+
+    if (this.outcomeFiltersForm.value.week=='0') {
+      this.getAllOutcomes(this.outcomeFiltersForm.value.date, this.outcomeFiltersForm.value.category);
+      this.countFilter -= 1;
+    } else {
+      //call the new endpoint to filter by week
+      console.log("filter by week!");
+      this.getOutcomesByWeek(
+        this.outcomeFiltersForm.value.date, 
+        this.outcomeFiltersForm.value.category,
+        this.outcomeFiltersForm.value.week
+        );
+    }
+
     // this.filterByDate.callback.emit(this.outcomeFiltersForm.value);
     this.modalFilters.dismiss({
       // this will dismiss current open modal.

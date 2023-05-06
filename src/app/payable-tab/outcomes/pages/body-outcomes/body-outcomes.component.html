@@ -90,7 +90,7 @@
       >
         <ion-row class="custom-filter">
           <ion-col>
-            <div>By Month and Year</div>
+            <div>Month and Year</div>
           </ion-col>
           <ion-col>
             <ion-datetime-button datetime="datetime"></ion-datetime-button>
@@ -104,6 +104,31 @@
                 ></ion-datetime>
               </ng-template>
             </ion-modal>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="custom-filter">
+          <ion-col>
+            <div>Week</div>
+          </ion-col>
+          <ion-col>
+            <ion-select
+              formControlName="week"
+              type="number"
+              required
+              aria-label="fruit"
+              placeholder="Select week"
+              [value]="weekFilter"
+            >
+              <ion-select-option value="0">All</ion-select-option>
+              <ion-select-option value="1"
+                >1st week</ion-select-option
+              >
+              <ion-select-option value="2">2 week</ion-select-option>
+              <ion-select-option value="3">3 week</ion-select-option>
+              <ion-select-option value="4">4 week</ion-select-option>
+              <ion-select-option value="5">5 week</ion-select-option>
+            </ion-select>
           </ion-col>
         </ion-row>
 
