@@ -17,6 +17,7 @@ import { UpdateOutcomeComponent } from '../update-outcome/update-outcome.compone
 import { RefreshPayableService } from 'src/app/payable-tab/services/refresh-payable/refresh-payable.service';
 import { SearchInputService } from 'src/app/payable-tab/services/searchInput/search-input.service';
 import { GetTotalOutcomesService } from 'src/app/payable-tab/services/getTotalOutcomes/get-total-outcomes.service';
+import { DateFilterByDayService } from 'src/app/payable-tab/services/dateFilterByDay/date-filter-by-day.service';
 
 
 @Component({
@@ -78,7 +79,8 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     private refreshPayableService: RefreshPayableService,
     private searchInputService: SearchInputService,
     private getTotalOutcomesService: GetTotalOutcomesService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private dateFilterByDayService: DateFilterByDayService
   ) {
   }
 
@@ -98,8 +100,11 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.getDateFromCalendar();
     this.initForm();
     if (this.selectedDateFromCalendar) {
+      console.log("this.selectedDateFromCalendar 🍭🍭🍭🍭", this.selectedDateFromCalendar);
+      
       this.getOutcomesByDay();
     } else {
       // this.getListFilteredByDate();
@@ -107,8 +112,17 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     }
   }
 
+  getDateFromCalendar() {
+    const observer$: Subscription = this.dateFilterByDayService.callback.subscribe(
+      (data) => {
+        console.log("DATE FROM CALENDAR DAY SELECTED: ", data);
+      }
+    )
+    this.subscriptions.push(observer$);
+  }
+
   getListFilteredByDate() {
-    const observer1$: Subscription = this.filterByDate.callback.subscribe(
+    const observer$: Subscription = this.filterByDate.callback.subscribe(
       (data) => {
         //when the use filter
         console.log("data filter: ",data);
@@ -119,7 +133,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.subscriptions.push(observer1$);
+    this.subscriptions.push(observer$);
   }
 
   handleRefresh(event: any) {

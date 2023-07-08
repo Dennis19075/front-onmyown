@@ -42,7 +42,7 @@
     </ion-label>
   </ion-item-divider> -->
   <div class="custom-calendar-widget">
-    <ion-datetime id="open-modal-perday" value="selectedDate" [(ngModel)]="selectedDate" [showDefaultButtons]="false" presentation="date"></ion-datetime>
+    <ion-datetime id="open-modal-perday" (click)="emitSelectedDate()" value="selectedDate" [(ngModel)]="selectedDate" [showDefaultButtons]="false" presentation="date"></ion-datetime>
   </div>  
   <!-- <ion-button
               color="warning"

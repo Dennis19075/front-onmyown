@@ -12,8 +12,6 @@ import { HeaderOutcomesComponent } from './pages/header-outcomes/header-outcomes
 import { BodyOutcomesComponent } from './pages/body-outcomes/body-outcomes.component';
 import { UpdateOutcomeComponent } from './pages/update-outcome/update-outcome.component';
 import { BodyCalendarOutputComponent } from './pages/body-calendar-output/body-calendar-output.component';
-import { OutcomesPerdayComponent } from './pages/body-calendar-output/outcomes-perday/outcomes-perday.component';
-
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
@@ -25,6 +23,6 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     OutcomesPageRoutingModule,
     Ng2SearchPipeModule,
   ],
-  declarations: [OutcomesPage, UpdateOutcomeComponent, HeaderOutcomesComponent, BodyOutcomesComponent, BodyCalendarOutputComponent, OutcomesPerdayComponent]
+  declarations: [OutcomesPage, UpdateOutcomeComponent, HeaderOutcomesComponent, BodyOutcomesComponent, BodyCalendarOutputComponent]
 })
 export class OutcomesPageModule {}
