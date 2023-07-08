@@ -64,7 +64,7 @@ export class PayableTabPage implements OnInit, OnDestroy {
     this.initRequest();
   }
 
-  initRequest() {
+  private initRequest() {
     this.getOutcomesPerWeek();
     this.getIncomesPerWeek();
     this.getUpdatedValues();
@@ -197,7 +197,7 @@ export class PayableTabPage implements OnInit, OnDestroy {
     + balance the difference between total incomes and outcomes
   *  
   */
-  calcSummary() {
+  private calcSummary() {
     this.sumIncomes = Number(this.sumWeeksIncome);
     this.sumOutcomes = Number(this.sumWeeksOutcome);
     this.progress = this.sumOutcomes / this.sumIncomes;
@@ -262,10 +262,6 @@ export class PayableTabPage implements OnInit, OnDestroy {
   private getCurrentMonth(outcomesByWeek: any) {
     this.currentMonthLabel = this.months[outcomesByWeek[5] - 1];
     this.currentYearLabel = outcomesByWeek[6];
-  }
-
-  outputGeneratePayableValue($event: any) {
-    this.initRequest();
   }
 
   ngOnDestroy(): void {

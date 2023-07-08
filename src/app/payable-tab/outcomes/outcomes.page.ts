@@ -1,10 +1,5 @@
-import { Component, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { IonModal } from '@ionic/angular';
+import { Component, OnInit } from '@angular/core';
 import { PayableService } from 'src/app/payable-tab/services/payable/payable.service';
-import { Outcome } from './outcome.model';
-import { RefreshPayableService } from '../services/refresh-payable/refresh-payable.service';
 import { GetTotalOutcomesService } from '../services/getTotalOutcomes/get-total-outcomes.service';
 
 @Component({
@@ -30,6 +25,11 @@ export class OutcomesPage implements OnInit {
     this.getUpdatedTotalOutcomes();
   }
 
+  /*
+  * getUpdatedTotalOutcomes
+    ? getting the total sum of outcomes
+  *  
+  */
   getUpdatedTotalOutcomes() {
     this.getTotalOutcomesService.callback.subscribe(
       (data) => {
@@ -38,17 +38,21 @@ export class OutcomesPage implements OnInit {
     );
   }
   
+  /*
+  * activateCalendarMode
+    ? tabSelected event to move between tabs
+  *  
+  */
   activateCalendarMode($event: any) {
     this.tabSelected = $event;
   }
 
+  /*
+  * getOutcomeByDay
+  *  
+  */
   getOutcomeByDay($event: any) {
-
-    console.log("event: ", $event);
-
     this.dateSelectedByDay = $event;
     this.tabSelected = "outcome-list";
-
-    console.log("tabSleceted: ", this.tabSelected);
   }
 }
