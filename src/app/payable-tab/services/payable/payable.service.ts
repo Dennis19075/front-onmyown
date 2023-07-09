@@ -158,7 +158,7 @@ export class PayableService {
     console.log("BY WEEK 🍭", this.base_path_incomes+"/GetIncomesByWeek");
     
     return this._http
-      .get<Outcome>(this.base_path_incomes+"/GetIncomesByWeek")
+      .get<Income>(this.base_path_incomes+"/GetIncomesByWeek")
       .pipe(
         retry(2),
         catchError(this.handleError)

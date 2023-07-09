@@ -33,7 +33,7 @@ export class BodyIncomesComponent implements OnInit {
     createdAt: new Date().toISOString(),
     editedAt: new Date().toISOString(),
     description: '',
-    responsable: '',
+    enable: true,
     category: '',
     expense: 0,
     userId: '639a530c058b3ae812b0e1ec',

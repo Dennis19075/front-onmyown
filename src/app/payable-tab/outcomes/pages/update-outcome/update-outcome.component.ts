@@ -56,7 +56,7 @@ export class UpdateOutcomeComponent implements OnInit {
   }
 
   initForm(outcomeSelected: Outcome) {
-    const { description, expense, exchange, category, createdAt, editedAt } =
+    const { description, expense, exchange, category, createdAt, editedAt, enable } =
       outcomeSelected || {};
 
     this.outcomeForm = this.fb.group({
@@ -71,6 +71,7 @@ export class UpdateOutcomeComponent implements OnInit {
         [],
       ],
       editedAt: [new Date().toISOString(), []],
+      enable: [enable ?? true, [Validators.required]],
     });
   }
 

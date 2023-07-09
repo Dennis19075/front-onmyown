@@ -3,7 +3,7 @@ export interface Income {
     createdAt: string;
     editedAt: string;
     description: string;
-    responsable: string;
+    enable: boolean,
     category: string;
     expense: number;
     exchange: string;

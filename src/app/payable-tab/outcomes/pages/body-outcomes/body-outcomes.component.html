@@ -51,7 +51,7 @@
   </ion-refresher>
   <ion-list class="custom-outcome-list">
     <ion-item-sliding *ngFor="let item of (descriptionSearch!='' ? (allOutcomes | filter:descriptionSearch) : allOutcomes)">
-      <ion-item (click)="openModal(item.id)">
+      <ion-item [ngClass]="{'custom-disabled': !item.enable}" (click)="openModal(item.id)">
         <ion-label>
           <h4>{{ item.description }}</h4>
           <p>{{ item.createdAt | date }}</p>

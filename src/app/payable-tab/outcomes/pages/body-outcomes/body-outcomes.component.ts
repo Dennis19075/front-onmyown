@@ -42,7 +42,7 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
     createdAt: new Date().toISOString(),
     editedAt: new Date().toISOString(),
     description: '',
-    responsable: '',
+    enable: true,
     category: '',
     expense: 0,
     userId: '639a530c058b3ae812b0e1ec',
@@ -176,7 +176,9 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
   totalSum() {
     this.totalOutcomes = 0;
     this.allOutcomes.forEach((outcome: any) => {
-      this.totalOutcomes += outcome.expense;
+      if (outcome.enable) {
+        this.totalOutcomes += outcome.expense;
+      }
     });
   }
 
@@ -195,7 +197,6 @@ export class BodyOutcomesComponent implements OnInit, OnDestroy {
       color: 'danger',
       position: 'bottom'
     });
-
     await toast.present();
   }
 

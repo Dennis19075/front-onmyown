@@ -40,7 +40,7 @@ export class OutcomesPage implements OnInit {
   
   /*
   * activateCalendarMode
-    ? tabSelected event to move between tabs
+    ? tabSelected event to move between tabs. It is executing when an output is emiting, sent from the header-outcomes component.
   *  
   */
   activateCalendarMode($event: any) {
