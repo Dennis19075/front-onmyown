@@ -13,15 +13,15 @@ const routes: Routes = [
       },
       {
         path: 'payable',
-        loadChildren: () => import('../payable-tab/payable-tab.module').then(m => m.Tab1PageModule)
+        loadChildren: () => import('../payable-tab/payable-tab.module').then(m => m.PayablePageModule)
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'cart-simulation',
+        loadChildren: () => import('../cart-simulation/cart-simulation.module').then(m => m.CartSimulationPageModule)
       },
       {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'limits',
+        loadChildren: () => import('../limits-tab/limits-tab.module').then(m => m.LimitTabPageModule)
       },
       {
         path: '',

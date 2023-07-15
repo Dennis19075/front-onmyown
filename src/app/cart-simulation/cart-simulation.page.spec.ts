@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { PayableTabPage } from './payable-tab.page';
+import { CartSimulationPage } from './cart-simulation.page';
 
-describe('Tab1Page', () => {
-  let component: PayableTabPage;
-  let fixture: ComponentFixture<PayableTabPage>;
+describe('CartSimulationPage', () => {
+  let component: CartSimulationPage;
+  let fixture: ComponentFixture<CartSimulationPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PayableTabPage],
+      declarations: [CartSimulationPage],
       // imports: [IonicModule.forRoot(), ExploreContainerComponentModule]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PayableTabPage);
+    fixture = TestBed.createComponent(CartSimulationPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
