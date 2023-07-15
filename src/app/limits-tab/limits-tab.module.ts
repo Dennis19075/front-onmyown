@@ -5,14 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { LimitTabPage } from './limits-tab.page';
 
 import { LimitTabPageRoutingModule } from './limits-tab-routing.module';
+import { LimitComponent } from './limit/limit.component';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    LimitTabPageRoutingModule
+    LimitTabPageRoutingModule,
   ],
-  declarations: [LimitTabPage]
+  declarations: [LimitTabPage,LimitComponent]
 })
 export class LimitTabPageModule {}

@@ -16,4 +16,12 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-icon name="help-circle-outline"></ion-icon><ion-button>Auto Split current incomes</ion-button>
+  <ion-button>Manual Split current incomes</ion-button>
+  <!-- TODO: luego llamar aqui con un foreach y que tome como inputs los valores como el valor gastado, el limite, el nombre de la categoria etc -->
+  <!-- TODO: esto mas bien es una liste de items y con su data y puedes acceder para modificar el limite   -->
+  <app-limit-component></app-limit-component>
+  <app-limit-component></app-limit-component>
+  <app-limit-component></app-limit-component>
+  <app-limit-component></app-limit-component>
 </ion-content>
